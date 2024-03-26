@@ -6,14 +6,14 @@
       <a-layout-content :style="{ ...contentStyle, flex: 1 }">Content</a-layout-content>
     </div>
     <a-layout-footer :style="footerStyle">
-      <button-test></button-test>
+<!--      <button-test></button-test>-->
     </a-layout-footer>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { CSSProperties } from 'vue';
-import ButtonTest from '../../components/button/ButtonTest.vue';
+// import ButtonTest from '../../components/button/ButtonTest.vue';
 
 const headerStyle: CSSProperties = {
   textAlign: 'center',

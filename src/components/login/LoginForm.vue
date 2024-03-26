@@ -131,6 +131,14 @@ const onFinishFailed = (errorInfo: any) => {
 
 const onRegister = () => {
   console.log('Register button clicked');
+  if(loginType.value == 'student'){
+    console.log('student register');
+    return router.push("/studentRegister")
+  }
+  if(loginType.value == 'enterprise'){
+    console.log('go to hr and firm register home');
+    return router.push("/hrFirmRegisterHome")
+  }
 };
 </script>
 

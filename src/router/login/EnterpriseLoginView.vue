@@ -29,7 +29,6 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import type { CSSProperties } from 'vue';
 import LoginForm from "../../components/login/LoginForm.vue";
-import axios from 'axios'; // 确保导入axios
 
 const route = useRoute();
 // 使用可选链来避免undefined的问题，并提供一个默认值
