@@ -6,7 +6,6 @@
       @finishFailed="onFinishFailed"
       class="form-style"
   >
-  111
     <a-form-item
         label="Username"
         name="username"
