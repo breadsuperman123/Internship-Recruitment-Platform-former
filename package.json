@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/runtime-dom": "^3.4.21",
     "ant-design-vue": "^4.1.2",
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
