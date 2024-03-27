@@ -53,8 +53,8 @@ const routes: Array<RouteRecordRaw> = [
     component:EnterpriseRegister
   },
   {
-    path:'/hrRegister',
-    name:'hrRegister',   // hr注册界面（企业以及入驻）
+    path:'/hrRegisterHome',
+    name:'hrRegisterHome',   // hr注册界面（企业以及入驻）
     component:HrRegisterHome
   },
 ]

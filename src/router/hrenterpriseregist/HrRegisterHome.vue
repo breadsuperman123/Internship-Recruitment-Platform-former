@@ -1,13 +1,134 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import axios from 'axios';
 
+const company = ref('');
+const creditCode = ref('');
+const username = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const showPassword = ref(false);
+const showConfirmPassword = ref(false)
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
+const toggleConfirmPasswordVisibility = () => {
+  showConfirmPassword.value = !showConfirmPassword.value;
+};
+
+const submitRegistration = async () => {
+  // 检查所有字段是否已填写
+  if (!company.value || !creditCode.value || !username.value || !password.value || !confirmPassword.value) {
+    alert('所有字段都需要填写。');
+    return;
+  }
+
+  // 检查两次输入的密码是否一致
+  if (password.value !== confirmPassword.value) {
+    alert('两次输入的密码不一致，请重新输入。');
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:8081/hrRegister', {
+      name: company.value,
+      creditCode: creditCode.value,
+      username: username.value,
+      password: password.value
+    });
+    // 处理响应数据
+    // ...
+  } catch (error) {
+    console.error(error);
+    // 处理错误
+  }
+};
 </script>
 
 <template>
-  <div>
+  <div class="container">
+    <form @submit.prevent="submitRegistration" class="registration-form">
+      <h2>HR注册</h2>
+      <input v-model="company" type="text" placeholder="公司名称" />
+      <input v-model="creditCode" type="text" placeholder="信用代码" />
+      <input v-model="username" type="text" placeholder="用户名" />
+      <div class="password-container">
+        <input v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="密码" />
+        <span class="toggle-password" @click="togglePasswordVisibility">👁️</span>
+      </div>
+      <div class="password-container">
+        <input v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" placeholder="确认密码" />
+        <span class="toggle-confirm-password" @click="toggleConfirmPasswordVisibility">👁️</span>
+      </div>
 
+      <button type="submit">提交注册</button>
+    </form>
   </div>
 </template>
 
-<style scoped>
 
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+.password-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.toggle-confirm-password {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
+}
+
+input, textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #23a6d5;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #23d5ab;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 </style>
