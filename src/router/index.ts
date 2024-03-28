@@ -8,6 +8,7 @@ import ManagerHome from "@/router/manager/ManagerHome.vue";
 import HrFirmRegisterHome from "@/router/hrenterpriseregist/HrFirmRegisterHome.vue";
 import EnterpriseRegister from "@/router/hrenterpriseregist/EnterpriseRegister.vue";
 import HrRegisterHome from "@/router/hrenterpriseregist/HrRegisterHome.vue";
+import StudentResume from "@/router/student/StudentResume.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -51,6 +52,16 @@ const routes: Array<RouteRecordRaw> = [
     path:'/enterpriseRegister',
     name:'enterpriseRegister',   //企业入驻页面
     component:EnterpriseRegister
+  },
+  {
+    path:'/studentView',
+    name:'studentView',   // 学生简历
+    component:StudentView
+  },
+  {
+    path:'/studentResume',
+    name:'studentResume',   // 学生简历编辑
+    component:StudentResume
   },
   {
     path:'/hrRegisterHome',
