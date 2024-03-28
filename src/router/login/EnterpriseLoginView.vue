@@ -14,7 +14,7 @@
       </a-layout-content>
     </div>
     <a-layout-footer :style="footerStyle">
-      欢迎来到青春实习大学生实习平台！
+      欢迎来到实习徒大学生实习平台！
       <br>
       <span>
         本产品由BJUT提供
