@@ -27,5 +27,4 @@ const contentStyle: CSSProperties = {
   color: '#fff',
   backgroundColor: '#108ee9',
 };
-
 </script>
