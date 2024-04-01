@@ -8,6 +8,7 @@ import ManagerHome from "@/router/manager/ManagerHome.vue";
 import HrFirmRegisterHome from "@/router/hrenterpriseregist/HrFirmRegisterHome.vue";
 import EnterpriseRegister from "@/router/hrenterpriseregist/EnterpriseRegister.vue";
 import HrRegisterHome from "@/router/hrenterpriseregist/HrRegisterHome.vue";
+import StudentRegisterView from "@/router/student/register/StudentRegisterView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -57,6 +58,12 @@ const routes: Array<RouteRecordRaw> = [
     name:'hrRegisterHome',   // hr注册界面（企业以及入驻）
     component:HrRegisterHome
   },
+  {
+    path:'/StudentRegisterView',
+    name:'StudentRegisterView',   // 学生注册界面
+    component:StudentRegisterView
+  },
+
 ]
 
 const router = createRouter({
