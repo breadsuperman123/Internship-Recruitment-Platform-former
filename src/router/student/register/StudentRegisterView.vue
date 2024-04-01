@@ -1,30 +1,34 @@
 <template>
   <a-space direction="vertical" :style="{ width: '100%' }" :size="[0, 48]">
     <a-layout>
-      <a-layout-header :style="headerStyle">学生注册</a-layout-header>
       <a-layout-content :style="contentStyle">
-        <student-register-form></student-register-form>
+        <div class="form-container">
+          <student-register-form></student-register-form>
+        </div>
       </a-layout-content>
     </a-layout>
   </a-space>
 </template>
+
 <script lang="ts" setup>
-import StudentRegisterForm from "@/router/student/register/StudentRegisterForm.vue";
 import type { CSSProperties } from 'vue';
-const headerStyle: CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 64,
-  paddingInline: 50,
-  lineHeight: '64px',
-  backgroundColor: '#7dbcea',
-};
+import StudentRegisterForm from "@/router/student/register/StudentRegisterForm.vue";
+
 
 const contentStyle: CSSProperties = {
   textAlign: 'center',
-  minHeight: 120,
+  minHeight: '100vh', // 修改最小高度为80vh，使studentregisterform组件占界面比例更大
   lineHeight: '120px',
   color: '#fff',
-  backgroundColor: '#108ee9',
+  background: 'url(/实习徒注册背景.gif)', // 添加动态背景
+  backgroundSize: 'cover', // 确保背景图像覆盖整个元素
 };
+
 </script>
+
+<style scoped>
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+</style>
