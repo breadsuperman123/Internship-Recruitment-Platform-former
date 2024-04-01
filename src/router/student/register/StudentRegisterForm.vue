@@ -2,6 +2,7 @@
 import { reactive } from 'vue';
 import axios from 'axios';
 
+
 const form = reactive({
   name: '',
   username: '',
