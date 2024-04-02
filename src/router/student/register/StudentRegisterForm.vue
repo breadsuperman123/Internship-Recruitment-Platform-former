@@ -1,6 +1,3 @@
-当然，我可以帮助您做到这一点。以下是修改后的代码：
-
-```vue
 <script setup lang="ts">
 import { reactive } from 'vue';
 import axios from 'axios';
