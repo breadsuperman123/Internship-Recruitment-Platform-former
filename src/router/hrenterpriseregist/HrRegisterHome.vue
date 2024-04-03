@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import router from "@/router";
+import { message } from 'ant-design-vue'; // Import message from ant-design-vue
 
 const name = ref('');
 const creditCode = ref('');
@@ -44,7 +45,7 @@ const checkUsernameAvailability = async () => {
 const submitRegistration = async () => {
   // Check if all fields are filled
   if (!name.value || !creditCode.value || !username.value || !password.value || !confirmPassword.value || !phone.value || !email.value) {
-    alert('所有字段都需要填写。');
+    message.error('所有字段都需要填写。');
     return;
   }
 
@@ -57,7 +58,7 @@ const submitRegistration = async () => {
 
   // Check if passwords match
   if (password.value !== confirmPassword.value) {
-    alert('两次输入的密码不一致，请重新输入。');
+    message.error('两次输入的密码不一致，请重新输入。');
     return;
   }
 
@@ -88,10 +89,10 @@ const submitRegistration = async () => {
     const responseCode = response.data.code
     if (responseCode == 0) {
       console.log(response.data)
-      alert(response.data.data)
+      message.error(response.data.data)
       return;
     }
-    alert(response.data.data)
+    message.success(response.data.data)
     console.log(response.data)
     return router.push("/enterpriseLogin");
   } catch (error) {

@@ -12,10 +12,11 @@ import { ref, defineProps , defineEmits} from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue'; // Import message from ant-design-vue
 
-const modalText = ref<string>('Content of the modal');
+const modalText = ref<string>('审批注册！');
 const open = ref<boolean>(false);
 const confirmLoading = ref<boolean>(false);
 const jwtToken = localStorage.getItem("jwtToken");
+
 const props = defineProps({
   enterpriseId: Number
 });
@@ -54,11 +55,11 @@ const handleOk = async () => {
   } catch (e) {
     message.error("出现错误"); // 使用 message.error 显示错误提示
   }
-  modalText.value = 'The modal will be closed after two seconds';
+  modalText.value = '操作中...';
   setTimeout(() => {
     open.value = false;
     confirmLoading.value = false;
-  }, 20);
+  }, 800);
 };
 
 const emit = defineEmits(['approved']);

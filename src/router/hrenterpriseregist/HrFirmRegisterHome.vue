@@ -61,7 +61,7 @@ const goToHrRegisterHome = () => {
 }
 
 .primary-button {
-  background-color: #4caf50;
+  background-color: #3557dc;
   color: #fff;
   padding: 14px 28px;
   font-size: 18px;
@@ -73,8 +73,8 @@ const goToHrRegisterHome = () => {
 
 .secondary-button {
   background-color: #fff;
-  color: #4caf50;
-  border: 2px solid #4caf50;
+  color: #335fce;
+  border: 2px solid #3459d2;
   padding: 14px 28px;
   font-size: 18px;
   border-radius: 8px;
@@ -83,14 +83,14 @@ const goToHrRegisterHome = () => {
 }
 
 .primary-button:hover {
-  background-color: #43a047;
+  background-color: #2a7bd9;
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .secondary-button:hover {
   background-color: #e8f5e9;
-  color: #43a047;
+  color: #1f56ce;
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

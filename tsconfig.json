@@ -15,7 +15,8 @@
     "types": [
       "webpack-env",
       "@vue/runtime-dom",
-      "vue/types/vue"
+      "vue/types/vue",
+      "element-plus/global"
     ],
     "paths": {
       "@/*": [

@@ -8,13 +8,21 @@ import 'element-plus/dist/index.css'
 import Header from '@headlessui/vue'
 
 import axios from 'axios';
+import {createPinia} from "pinia";
 
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+const pinia = createPinia()
 
+export default pinia
 
 const app = createApp(App);
+for(const [key, component] of Object.entries(ElementPlusIconsVue)){
+    app.component(key, component)
+}
 app.use(router);
 app.use(Antd);
 app.mount('#app');
 app.use(ElementPlus);
 app.use(Header)
+app.use(pinia)
 app.config.globalProperties.$axios = axios;

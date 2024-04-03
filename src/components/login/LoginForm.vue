@@ -85,8 +85,8 @@ const formState = reactive<FormState>({
   password: '',
   remember: false,
 });
-
-
+import {ref} from "vue"
+const jwtToken = ref('')
 
 const route = useRoute();
 
@@ -109,8 +109,16 @@ const onFinish = async () => {
       return;
     }else if (responseCode == 1 && loginType.value == 'student') { // 登录成功后的处理逻辑
       // 学生用户登录成功后跳转到学生用户界面/studentHome               // 判断获取当前是学生还是企业用户登入
+      const token = response.data.data;
+
+      // 将令牌保存到本地存储或状态管理系统中，以便在后续请求中使用
+      localStorage.setItem('jwtToken', token);
       return router.push('/studentHome');
     } else if(responseCode == 1 && loginType.value == 'enterprise'){
+      const token = response.data.data;
+
+      // 将令牌保存到本地存储或状态管理系统中，以便在后续请求中使用
+      localStorage.setItem('jwtToken', token);
       // 企业用户登录成功后跳转到企业用户界面/enterpriseHome
       return router.push('/humanResourceHome');
     }else{

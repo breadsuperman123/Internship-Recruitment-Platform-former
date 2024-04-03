@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
-
+import { message } from 'ant-design-vue'; // Import message from ant-design-vue
 const company = ref('');
 const creditCode = ref('');
 const address = ref('');
@@ -41,10 +41,10 @@ const submitRegistration = async () => {
     console.log("文件logoUrl：", logoUrl.value)
     console.log(response2.data);
     if(response2.data.code == 1){
-      alert(response2.data.data)
+      message.success(response2.data.data)
       return;
     }else{
-      alert(response2.data.data)
+      message.error(response2.data.data)
     }
   } catch (error) {
     console.error(error);
@@ -65,7 +65,7 @@ const submitRegistration = async () => {
         <i class="fa fa-cloud-upload"></i> 营业执照
       </label>
       <input id="file-upload" type="file" @change="file = $event.target.files[0]" accept="*.*" />
-      <button type="submit">提交注册</button>
+      <button type="submit" style="color: #007bff">提交注册</button>
     </form>
   </div>
 </template>
@@ -100,14 +100,14 @@ input, textarea, button {
 }
 
 button {
-  background-color: #34495e;
+  background-color: #2982dc;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #2c3e50;
+  background-color: #0957a4;
 }
 
 .custom-file-upload {

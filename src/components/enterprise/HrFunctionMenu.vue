@@ -15,11 +15,13 @@
         mode="inline"
         :theme="theme"
         :items="items"
+        @selct="handleMenuSelect"
+        @click="handleMenuSelect"
     />
   </div>
 </template>
 <script lang="ts" setup>
-import { h, ref } from 'vue';
+import { h, ref, defineEmits } from 'vue';
 import {
   MailOutlined,
   CalendarOutlined,
@@ -27,13 +29,16 @@ import {
   SettingOutlined,
 } from '@ant-design/icons-vue';
 import type { MenuTheme } from 'ant-design-vue';
+
 const theme = ref<MenuTheme>('dark');
 const selectedKeys = ref(['1']);
 const openKeys = ref(['sub1']);
+
+
 const items = ref([
   {
     key: '1',
-    icon: () => h(MailOutlined),
+    icon: () => h(AppstoreOutlined),
     label: '岗位管理',
     title: 'postManagement',
   },
@@ -58,7 +63,7 @@ const items = ref([
   },
   {
     key: '3',
-    icon: () => h(AppstoreOutlined),
+    icon: () => h(MailOutlined),
     label: '人才探索',
     title: 'talentExploration',
   },
@@ -76,8 +81,22 @@ const items = ref([
     ],
   },
 ]);
+const emit = defineEmits(['menuSelected']);
 const changeTheme = (checked: boolean) => {
   theme.value = checked ? 'dark' : 'light';
 };
+
+
+// Define handleMenuSelect method to handle menu item selection
+// Define handleMenuSelect method to handle menu item selection
+const handleMenuSelect = (selectedItem: any) => {
+  // Emit an event to notify the parent component about the selected menu item
+  emit('menuSelected', selectedItem);
+  console.log("selectedKeys", selectedKeys)
+  // Log the key of the selected menu item to the console
+  console.log('Selected menu item key:', selectedItem.key);
+};
+
+
 </script>
 

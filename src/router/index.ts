@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import StudentLoginView from "../router/login/StudentLoginView.vue";
 import EnterpriseLoginView from "../router/login/EnterpriseLoginView.vue";
-import EnpterpriseView from './enterprise/HumanResourceHome.vue';
 import ManagerLogin from "../router/manager/ManagerLogin.vue";
 import StudentView from "../router/student/StudentView.vue";
 import ManagerHome from "@/router/manager/ManagerHome.vue";
@@ -11,6 +10,9 @@ import HrRegisterHome from "@/router/hrenterpriseregist/HrRegisterHome.vue";
 import StudentRegisterView from "@/router/student/register/StudentRegisterView.vue";
 import HumanResourceHome from "@/router/enterprise/HumanResourceHome.vue";
 import EnterpriseHome from "@/router/enterprise/EnterpriseHome.vue";
+import ChatHome from "@/components/enterprise/function/chat/ChatHome.vue";
+import ChatLoginHome from "@/components/enterprise/function/chat/ChatLoginHome.vue";
+import PostSubmitSituationView from "@/router/enterprise/submit/PostSubmitSituationView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -69,6 +71,21 @@ const routes: Array<RouteRecordRaw> = [
     path:'/humanResourceHome',
     name:'humanResourceHome',   // hr登入后的主页面
     component:HumanResourceHome
+  },
+  {
+    path:'/chatHome',
+    name:'chatHome',   // 聊天
+    component:ChatHome
+  },
+  {
+    path:'/chatLoginHome',
+    name:'chatLoginHome',   // 聊天
+    component:ChatLoginHome
+  },
+  {
+    path:'/postSubmitSituationView',
+    name:'postSubmitSituationView',   // 聊天
+    component:PostSubmitSituationView
   },
 
 ]

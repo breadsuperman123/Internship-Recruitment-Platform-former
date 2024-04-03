@@ -13,7 +13,7 @@ import axios from 'axios';
 import { message } from 'ant-design-vue'; // Import message from ant-design-vue
 import router from "@/router";
 
-const modalText = ref<string>('Content of the modal');
+const modalText = ref<string>('是否拒绝该企业注册？');
 const open = ref<boolean>(false);
 const confirmLoading = ref<boolean>(false);
 const jwtToken = localStorage.getItem("jwtToken");
@@ -56,11 +56,11 @@ const handleOk = async () => {
   } catch (e) {
     message.error("出现错误"); // 使用 message.error 显示错误提示
   }
-  modalText.value = 'The modal will be closed after two seconds';
+  modalText.value = '操作中...';
   setTimeout(() => {
     open.value = false;
     confirmLoading.value = false;
-  }, 20);
+  }, 1000);
 };
 
 const emit = defineEmits(['reject']);
