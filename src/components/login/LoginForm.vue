@@ -112,7 +112,7 @@ const onFinish = async () => {
       return router.push('/studentHome');
     } else if(responseCode == 1 && loginType.value == 'enterprise'){
       // 企业用户登录成功后跳转到企业用户界面/enterpriseHome
-      return router.push('/enterpriseHome');
+      return router.push('/humanResourceHome');
     }else{
       alert('Login failed. Please check your username and password. responseCode: 1 else');
       return;
@@ -133,7 +133,7 @@ const onRegister = () => {
   console.log('Register button clicked');
   if(loginType.value == 'student'){
     console.log('student register');
-    return router.push("/studentRegister")
+    return router.push("/studentRegisterView")
   }
   if(loginType.value == 'enterprise'){
     console.log('go to hr and firm register home');

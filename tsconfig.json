@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "@vue/runtime-dom"
+      "@vue/runtime-dom",
+      "vue/types/vue"
     ],
     "paths": {
       "@/*": [

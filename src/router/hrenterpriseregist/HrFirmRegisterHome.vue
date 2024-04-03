@@ -14,14 +14,16 @@ const goToHrRegisterHome = () => {
 
 <template>
   <div class="container">
+    <div class="title">欢迎使用企业注册平台</div>
+
     <div class="button-container">
-      <span>企业未入驻，点击下方按钮去申请</span>
-      <el-button class="animated-button" @click="goToEnterpriseRegist">申请入驻</el-button>
+      <span class="instruction">如果您是新企业，请点击下方按钮进行入驻申请。</span>
+      <el-button class="primary-button" @click="goToEnterpriseRegist">申请入驻</el-button>
     </div>
 
     <div class="button-container">
-      <span>企业已入驻，点击下方按钮注册HR</span>
-      <el-button class="animated-button" @click="goToHrRegisterHome">注册HR</el-button>
+      <span class="instruction">如果您是已入驻企业，欢迎注册 HR 账号。</span>
+      <el-button class="secondary-button" @click="goToHrRegisterHome">注册 HR</el-button>
     </div>
   </div>
 </template>
@@ -33,33 +35,63 @@ const goToHrRegisterHome = () => {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(69,104,220,0.3) 50%, rgba(176,106,179,0.3) 100%);
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.button-container {
-  margin: 20px;
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #333;
+}
+
+.instruction {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #666;
   text-align: center;
 }
 
-.animated-button {
-  transition: transform 0.3s, box-shadow 0.3s;
+.button-container {
+  margin-bottom: 30px;
 }
 
-.animated-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
-
-.el-button {
+.primary-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 18px;
   border: none;
-  color: white;
-  background-color: #4568dc; /* Fallback for older browsers */
-  background-image: linear-gradient(315deg, #4568dc 0%, #b06ab3 74%);
-  padding: 10px 20px;
-  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
-  outline: none;
-  border-radius: 5px;
-  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.secondary-button {
+  background-color: #fff;
+  color: #4caf50;
+  border: 2px solid #4caf50;
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.primary-button:hover {
+  background-color: #43a047;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.secondary-button:hover {
+  background-color: #e8f5e9;
+  color: #43a047;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 </style>

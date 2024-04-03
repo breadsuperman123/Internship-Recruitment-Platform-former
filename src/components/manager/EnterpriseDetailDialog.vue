@@ -1,7 +1,7 @@
 <template>
   <div id="components-modal-demo-position">
     <a-button type="primary" @click="showDetailDialog">
-      {{ enterpriseId }}
+      {{ id }}
     </a-button>
     <a-modal
         v-model:open="modalVisible"
@@ -9,12 +9,12 @@
         centered
         @ok="closeDetailDialog"
     >
-      <p>{{ enterpriseData.id }}</p>
-      <p>{{ enterpriseData.name }}</p>
-      <p>{{ enterpriseData.address }}</p>
-      <p>{{ enterpriseData.creditCode }}</p>
-      <p>{{ enterpriseData.description }}</p>
-      <p>{{ enterpriseData.logoUrl }}</p>
+      <p>企业ID：{{ enterpriseData.id }}</p>
+      <p>企业名称：{{ enterpriseData.name }}</p>
+      <p>企业地址：{{ enterpriseData.address }}</p>
+      <p>社会信用代码{{ enterpriseData.creditCode }}</p>
+      <p>企业简介{{ enterpriseData.description }}</p>
+      <p>图片url{{ enterpriseData.logoUrl }}</p>
     </a-modal>
   </div>
 </template>
@@ -22,13 +22,30 @@
 <script lang="ts" setup>
 import { ref, defineProps } from 'vue';
 import axios from "axios";
+// 设置axios请求头的通用配置
 
 const props = defineProps({
-  enterpriseId: String
+  id: Number
 });
 
 const modalVisible = ref<boolean>(false);
 const jwtToken = localStorage.getItem("jwtToken");
+axios.defaults.headers.common['token'] = jwtToken;
+
+// 创建axios实例
+const instance = axios.create({
+  baseURL: 'http://localhost:8081'
+});
+
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  config.headers.Authorization = `${jwtToken}`;
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
 
 const enterpriseData = ref({
   id: '',
@@ -43,14 +60,10 @@ const showDetailDialog = async () => {
   modalVisible.value = true;
   console.log("jwt:", jwtToken);
   try {
-    const response = await axios.post("http://localhost:8081/enterpriseDetail", {
-      enterpriseId: props.enterpriseId
-    },{
-      headers: {
-        token: jwtToken
-      },
+    const response = await instance.post("/enterpriseDetail", {
+      id: props.id
     });
-    enterpriseData.value = response.data;
+    enterpriseData.value = response.data.data;
   } catch (error) {
     console.error("Error fetching enterprise detail:", error);
   }
