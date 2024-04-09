@@ -6,38 +6,52 @@ const company = ref('');
 const creditCode = ref('');
 const address = ref('');
 const intro = ref('');
+const file = ref(null);
+const logoUrl = ref('');
 
 const submitRegistration = async () => {
-  // 检查所有字段是否已填写
-  if (!company.value || !creditCode.value || !address.value || !intro.value) {
+  if (!company.value || !creditCode.value || !address.value || !intro.value || !file.value) {
     alert('所有字段都需要填写。');
     return;
   }
+  // formData.append('file', file.value); // Ensure file is added to FormData
+
   try {
-    const response = await axios.post('http://localhost:8081/enterpriseRegister', {
-      name: company.value,
-      creditCode: creditCode.value,
-      address: address.value,
-      description: intro.value
+    const response1 = await axios.post('http://localhost:8081/upload', {
+      file: file.value
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data' // Ensure correct Content-Type header
+      }
     });
+    logoUrl.value = response1.data.data;
+
+    const response2 = await axios.post('http://localhost:8081/enterpriseRegister', {
+      name:company.value,
+      creditCode:creditCode.value,
+      address:address.value,
+      description:intro.value,
+      logoUrl: logoUrl.value
+    });
+
     console.log("公司名称：", company.value)
     console.log("信用代码：", creditCode.value)
     console.log("地址：", address.value)
     console.log("公司简介：", intro.value)
-    console.log(response.data);
-    if(response.data.code == 1){
-      alert(response.data.data)
+    console.log("文件logoUrl：", logoUrl.value)
+    console.log(response2.data);
+    if(response2.data.code == 1){
+      alert(response2.data.data)
       return;
     }else{
-      alert(response.data.data)
+      alert(response2.data.data)
     }
-    // 处理响应数据
   } catch (error) {
     console.error(error);
-    // 处理错误
   }
 };
 </script>
+>
 
 <template>
   <div class="container">
@@ -47,7 +61,11 @@ const submitRegistration = async () => {
       <input v-model="creditCode" type="text" placeholder="信用代码" />
       <input v-model="address" type="text" placeholder="地址" />
       <textarea v-model="intro" placeholder="简介"></textarea>
-      <button type="submit">提交</button>
+      <label for="file-upload" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> 营业执照
+      </label>
+      <input id="file-upload" type="file" @change="file = $event.target.files[0]" accept="*.*" />
+      <button type="submit">提交注册</button>
     </form>
   </div>
 </template>
@@ -58,42 +76,44 @@ const submitRegistration = async () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+  background-color: #f4f4f4;
 }
 
 .registration-form {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  gap: 10px;
+  align-items: center;
+  width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-input, textarea {
+input, textarea, button {
+  margin-bottom: 10px;
   padding: 10px;
+  width: 100%;
   border-radius: 5px;
-  border: none;
+  border: 1px solid #ddd;
   outline: none;
 }
 
 button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #23a6d5;
+  background-color: #34495e;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #23d5ab;
+  background-color: #2c3e50;
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 </style>

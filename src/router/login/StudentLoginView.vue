@@ -14,7 +14,7 @@
       </a-layout-content>
     </div>
     <a-layout-footer :style="footerStyle">
-      欢迎来到青春实习大学生实习平台！
+      欢迎来到实习徒大学生实习平台！
       <br>
       <span>
 
@@ -42,7 +42,7 @@ const headerStyle: CSSProperties = {
   height: '64px',
   paddingInline: '50px',
   lineHeight: '64px',
-  backgroundColor: '#e1eeec',
+  backgroundColor: '#ffffff',
 };
 
 const contentStyle: CSSProperties = {
@@ -56,10 +56,10 @@ const contentStyle: CSSProperties = {
 
 const footerStyle: CSSProperties = {
   textAlign: 'center',
-  color: '#fff',
+  color: '#0c0202',
   height: '30px',
   lineHeight: '30px',
-  backgroundColor: '#c0d3e1',
+  backgroundColor: '#ffffff',
 };
 
 </script>
@@ -72,7 +72,7 @@ const footerStyle: CSSProperties = {
   align-items: center;
   height: 100%;
   width: 100%;
-  background-image: url("../../assets/login2(1).jpg");
+  background-image: url("../../../public/实习徒注册背景.gif");
   background-size: cover;
   opacity: 0.9;
 }

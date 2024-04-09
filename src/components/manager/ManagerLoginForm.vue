@@ -62,6 +62,12 @@ const onFinish = async () => {
       return;
     }else if (responseCode == 1) { // 登录成功后的处理逻辑
       // 管理员登录成功后跳到管理员主页
+      // 假设响应包含JWT令牌
+      const token = response.data.data;
+
+      // 将令牌保存到本地存储或状态管理系统中，以便在后续请求中使用
+      localStorage.setItem('jwtToken', token);
+      console.log("管理员登录页面存档的令牌",localStorage)
       return router.push('/managerHome');
     } else{
       alert('Login failed. Please check your username and password. responseCode: 1 else');

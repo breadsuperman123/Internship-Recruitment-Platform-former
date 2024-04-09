@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import StudentLoginView from "../router/login/StudentLoginView.vue";
 import EnterpriseLoginView from "../router/login/EnterpriseLoginView.vue";
-import EnpterpriseView from './enterprise/EnpterpriseView.vue';
+import EnpterpriseView from './enterprise/HumanResourceHome.vue';
 import ManagerLogin from "../router/manager/ManagerLogin.vue";
 import StudentView from "../router/student/StudentView.vue";
 import ManagerHome from "@/router/manager/ManagerHome.vue";
 import HrFirmRegisterHome from "@/router/hrenterpriseregist/HrFirmRegisterHome.vue";
 import EnterpriseRegister from "@/router/hrenterpriseregist/EnterpriseRegister.vue";
 import HrRegisterHome from "@/router/hrenterpriseregist/HrRegisterHome.vue";
-import StudentResume from "@/router/student/StudentResume.vue";
+import StudentRegisterView from "@/router/student/register/StudentRegisterView.vue";
+import HumanResourceHome from "@/router/enterprise/HumanResourceHome.vue";
+import EnterpriseHome from "@/router/enterprise/EnterpriseHome.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -32,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/enterpriseHome',
     name: 'enterpriseHome',  //企业主页
-    component:EnpterpriseView
+    component:EnterpriseHome
   },
   {
     path:'/managerLogin',
@@ -54,20 +56,21 @@ const routes: Array<RouteRecordRaw> = [
     component:EnterpriseRegister
   },
   {
-    path:'/studentView',
-    name:'studentView',   // 学生简历
-    component:StudentView
-  },
-  {
-    path:'/studentResume',
-    name:'studentResume',   // 学生简历编辑
-    component:StudentResume
-  },
-  {
     path:'/hrRegisterHome',
     name:'hrRegisterHome',   // hr注册界面（企业以及入驻）
     component:HrRegisterHome
   },
+  {
+    path:'/StudentRegisterView',
+    name:'StudentRegisterView',   // 学生注册界面
+    component:StudentRegisterView
+  },
+  {
+    path:'/humanResourceHome',
+    name:'humanResourceHome',   // hr登入后的主页面
+    component:HumanResourceHome
+  },
+
 ]
 
 const router = createRouter({

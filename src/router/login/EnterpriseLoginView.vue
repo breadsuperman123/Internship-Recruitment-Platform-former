@@ -14,7 +14,7 @@
       </a-layout-content>
     </div>
     <a-layout-footer :style="footerStyle">
-      欢迎来到青春实习大学生实习平台！
+      欢迎来到实习徒大学生实习平台！
       <br>
       <span>
         本产品由BJUT提供
@@ -41,7 +41,7 @@ const headerStyle: CSSProperties = {
   height: '64px',
   paddingInline: '50px',
   lineHeight: '64px',
-  backgroundColor: '#e1eeec',
+  backgroundColor: '#d8e817',
 };
 
 const contentStyle: CSSProperties = {
@@ -55,10 +55,10 @@ const contentStyle: CSSProperties = {
 
 const footerStyle: CSSProperties = {
   textAlign: 'center',
-  color: '#fff',
+  color: '#100f0f',
   height: '30px',
   lineHeight: '30px',
-  backgroundColor: '#c0d3e1',
+  backgroundColor: '#138de7',
 };
 
 </script>
