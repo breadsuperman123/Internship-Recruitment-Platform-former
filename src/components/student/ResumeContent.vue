@@ -5,43 +5,54 @@
         <div class="block">
           <div class="contentHeader">
             <h2 id="eduInfo">教育信息</h2>
-            <a-button type="primary" shape="circle" @click="eduInfoEdit">{{ eduInfoEditMode ? '完成' : '编辑' }}</a-button>
+            <a-button type="primary" shape="circle" @click="addEduInfo">添加</a-button>
             <!--<button @click="toggleEditMode">{{ editMode ? '取消' : '编辑' }}</button>-->
           </div>
-          <div v-if="!eduInfoEditMode">
-            <a-card style="width: 300px">
-            <p>{{ eduInfo.schoolName || '未填写' }} | {{ eduInfo.major || '未填写' }}</p>
+          <div v-if="eduControl.condition">
+            <div v-for="(edu, index) in eduInfo" :key="index">
+            <a-card style="width: 600px">
+            <p>{{ edu.schoolName || '未填写' }} | {{ edu.major || '未填写' }}</p>
             <!-- GPA和成绩排名 -->
-            <p>{{ eduInfo.score || '未填写' }} | {{ eduInfo.rank || '未填写' }}</p>
+            <p>{{ edu.score || '未填写' }} | {{ edu.rank || '未填写' }}</p>
             <!-- 在校时间和学历 -->
-            <p>{{ eduInfo.date || '未填写' }} | {{ eduInfo.education || '未填写' }}</p>
+            <p> {{ formatDate(edu.startDate) || '未填写' }} —— {{ formatDate(edu.endDate) || '未填写' }}| {{ edu.education || '未填写' }}</p>
             <!-- 主修课程描述 -->
-            <p>{{ eduInfo.lessonDescription || '未填写' }}</p>
+            <p>{{ edu.lessonDescription || '未填写' }}</p>
+              <a-row>
+                <a-col :span="2">
+                  <a-button type="primary" shape="circle" @click="eduInfoEdit(index) ">编辑</a-button>
+                </a-col>
+                <a-col :span="2">
+                  <a-button type="primary" shape="circle"  @click="deleteEdu(index)" >删除</a-button>
+                </a-col>
+              </a-row>
             </a-card>
+
+            </div>
           </div>
-          <div class="form-container" v-if="eduInfoEditMode">
-            <a-form :model="eduInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="eduInfoEditMode" @submit.prevent="saveEduInfo">
+            <div class="form-container" v-if="!eduControl.condition">
+            <a-form :model="eduInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="!eduControl.condition" @submit.prevent="saveEduInfo">
               <a-row>
                 <a-col :span="12">
                   <a-form-item label="学校">
-                    <a-input v-model:value="eduInfo.schoolName" size="large" />
+                    <a-input v-model:value="eduInfo[eduControl.index].schoolName" size="large" />
                   </a-form-item>
                 </a-col>
                 <a-col :span="12" >
                   <a-form-item label="专业">
-                    <a-input v-model:value="eduInfo.major" size="large" />
+                    <a-input v-model:value="eduInfo[eduControl.index].major" size="large" />
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row>
                 <a-col :span="12">
                   <a-form-item label="GPA">
-                    <a-input v-model:value="eduInfo.score" size="large" />
+                    <a-input v-model:value="eduInfo[eduControl.index].score" size="large" />
                   </a-form-item>
                 </a-col>
                 <a-col :span="12" >
                   <a-form-item label="成绩排名">
-                      <a-select ref="select" v-model:value="eduInfo.rank" size="large">
+                      <a-select ref="select" v-model:value="eduInfo[eduControl.index].rank" size="large">
                         <a-select-option value="前10%">前10%</a-select-option>
                         <a-select-option value="前25%">前25%</a-select-option>
                         <a-select-option value="前50%" >前50%</a-select-option>
@@ -51,14 +62,19 @@
                 </a-col>
               </a-row>
               <a-row>
-                <a-col :span="12">
-                  <a-form-item label="在校时间">
-                    <a-range-picker v-model:value="eduInfo.date" />
+                <a-col :span="8">
+                  <a-form-item label="开始时间">
+                    <a-date-picker v-model:value="eduInfo[eduControl.index].startDate"  size="large"/>
                   </a-form-item>
                 </a-col>
-                <a-col :span="12" >
+                <a-col :span="8">
+                  <a-form-item label="开始时间">
+                    <a-date-picker v-model:value="eduInfo[eduControl.index].endDate"  size="large"/>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="8" >
                   <a-form-item label="学历">
-                    <a-select ref="select" v-model:value="eduInfo.education" size="large">
+                    <a-select ref="select" v-model:value="eduInfo[eduControl.index].education" size="large">
                       <a-select-option value="大专">大专</a-select-option>
                       <a-select-option value="本科">本科</a-select-option>
                       <a-select-option value="硕士" >硕士</a-select-option>
@@ -71,11 +87,14 @@
               <a-row>
                 <a-col :span="24" >
                   <a-form-item label="主修课程描述">
-                    <a-textarea v-model:value="eduInfo.lessonDescription" placeholder="请简要描述您的主修课程" :rows="4" />
+                    <a-textarea v-model:value="eduInfo[eduControl.index].lessonDescription" placeholder="请简要描述您的主修课程" :rows="4" />
                     <!--                  <a-input v-model:value="practiceInfo.jobContent" size="large"/>-->
                   </a-form-item>
                 </a-col>
               </a-row>
+              <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+                <a-button type="primary" @click="saveEduInfo(eduControl.index)">保存</a-button>
+              </a-form-item>
             </a-form>
         </div>
         </div>
@@ -96,7 +115,7 @@
             <a-card style="width: 600px">
           <p>{{ practice.enterpriseName || '未填写' }} | {{ practice.jobName || '未填写' }}</p>
           <!-- GPA和成绩排名 -->
-          <p>{{ practice.date || '未填写' }} </p>
+          <p>{{ formatDate(practice.startDate) || '未填写' }} —— {{ formatDate(practice.endDate) || '未填写' }} </p>
           <!-- 主修课程描述 -->
           <p>{{ practice.jobContent || '未填写' }}</p>
               <a-row>
@@ -126,8 +145,13 @@
               </a-row>
               <a-row>
                 <a-col :span="12" >
-                  <a-form-item label="起止时间">
-                    <a-range-picker v-model:value="practiceInfo[practiceControl.index].date" size="large"/>
+                  <a-form-item label="开始时间">
+                    <a-date-picker v-model:value="practiceInfo[practiceControl.index].startDate"  size="large"/>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12" >
+                  <a-form-item label="结束时间">
+                    <a-date-picker v-model:value="practiceInfo[practiceControl.index].endDate"  size="large"/>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -139,7 +163,7 @@
                 </a-col>
               </a-row>
               <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-                <a-button type="primary" @click="PracticeEdit(projectControl.index)">保存</a-button>
+                <a-button type="primary" @click="savePracticeInfo(practiceControl.index)">保存</a-button>
               </a-form-item>
             </a-form>
           </div>
@@ -162,7 +186,7 @@
             <a-card style="width: 600px">
           <p>{{ organization.organizationName || '未填写' }} | {{ organization.jobName || '未填写' }}</p>
           <!-- 经历时间 -->
-          <p>{{ organization.date || '未填写' }} </p>
+          <p>{{ formatDate(organization.startDate) || '未填写' }} —— {{ formatDate(organization.endDate) || '未填写' }}</p>
           <!-- 主要工作描述 -->
           <p>{{ organization.jobContent || '未填写' }}</p>
               <a-row>
@@ -191,9 +215,14 @@
               </a-col>
             </a-row>
             <a-row>
-              <a-col :span="14" >
-                <a-form-item label="起止时间">
-                  <a-range-picker v-model:value="organizationInfo[organizationControl.index].date" size="large"/>
+              <a-col :span="12" >
+                <a-form-item label="开始时间">
+                  <a-date-picker v-model:value="organizationInfo[organizationControl.index].startDate"  size="large"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12" >
+                <a-form-item label="结束时间">
+                  <a-date-picker v-model:value="organizationInfo[organizationControl.index].endDate"  size="large"/>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -205,7 +234,7 @@
               </a-col>
             </a-row>
             <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="organizationEdit(projectControl.index)">保存</a-button>
+              <a-button type="primary" @click="saveOrganizationInfo(organizationControl.index)">保存</a-button>
             </a-form-item>
           </a-form>
         </div>
@@ -227,7 +256,7 @@
             <a-card style="width: 600px">
           <p>{{ project.projectName || '未填写' }} | {{ project.jobName || '未填写' }}</p>
           <!-- 经历时间 -->
-          <p>{{ project.date || '未填写' }} </p>
+          <p>{{ formatDate(project.startDate) || '未填写' }} —— {{ formatDate(project.endDate) || '未填写' }} </p>
           <!-- 主要工作描述 -->
           <p>{{ project.jobContent || '未填写' }}</p>
           <a-row>
@@ -257,9 +286,14 @@
               </a-col>
             </a-row>
             <a-row>
-              <a-col :span="14" >
-                <a-form-item label="起止时间">
-                  <a-range-picker v-model:value="projectInfo[projectControl.index].date" size="large"/>
+              <a-col :span="12" >
+                <a-form-item label="开始时间">
+                  <a-date-picker v-model:value="projectInfo[projectControl.index].startDate"  size="large"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12" >
+                <a-form-item label="结束时间">
+                  <a-date-picker v-model:value="projectInfo[projectControl.index].endDate"  size="large"/>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -267,12 +301,11 @@
               <a-col :span="24" >
                 <a-form-item label="工作内容">
                   <a-textarea v-model:value="projectInfo[projectControl.index].jobContent" placeholder="请简要描述您的项目工作" :rows="4" />
-                  <!--                  <a-input v-model:value="practiceInfo.jobContent" size="large"/>-->
                 </a-form-item>
               </a-col>
             </a-row>
             <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="projectEdit(projectControl.index)">保存</a-button>
+              <a-button type="primary" @click="saveProjectInfo(projectControl.index)">保存</a-button>
             </a-form-item>
           </a-form>
         </div>
@@ -291,7 +324,7 @@
         <div v-if="certificateControl.condition">
         <div v-for="(certificate, index) in certificates" :key="index">
           <a-card style="width: 600px">
-            <p>{{ certificate.certificateName || '未填写' }} | {{ certificate.date || '未填写' }}</p>
+            <p>{{ certificate.certificateName || '未填写' }} | {{ formatDate(certificate.startDate) || '未填写' }}</p>
             <a-row>
               <a-col :span="2">
             <a-button type="primary" shape="circle" @click="certificateEdit(index) ">编辑</a-button>
@@ -304,21 +337,21 @@
         </div>
       </div>
         <div class="form-container" v-if="!certificateControl.condition">
-          <a-form :model="certificateInfo" :label-col="labelCol" :wrapper-col="wrapperCol"  @submit.prevent="saveCertificateInfo">
+          <a-form :model="certificateControl" :label-col="labelCol" :wrapper-col="wrapperCol"  @submit.prevent="saveCertificateInfo">
             <a-row>
               <a-col :span="12">
                 <a-form-item label="奖项名称">
                   <a-input v-model:value="certificates[certificateControl.index].certificateName" size="large" />
                 </a-form-item>
               </a-col>
-              <a-col :span="12" >
-                <a-form-item label="起止时间">
-                  <a-range-picker v-model:value="certificates[certificateControl.index].date" size="large"/>
+              <a-col :span="12">
+                <a-form-item label="获奖时间">
+                  <a-date-picker v-model:value="certificates[certificateControl.index].startDate"  size="large"/>
                 </a-form-item>
               </a-col>
             </a-row>
             <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="certificateEdit(certificateControl.index)">保存</a-button>
+              <a-button type="primary" @click="saveCertificateInfo(certificateControl.index)">保存</a-button>
             </a-form-item>
           </a-form>
         </div>
@@ -334,11 +367,15 @@
     </div>
     <!-- 横线 -->
     <div class="divider"></div> <!-- 第一块 -->
-    <div class="block">
-      <h2>志愿经历</h2>
-      <p>Option 1 Content</p>
-    </div>
+  <div class="block">
+    <div ref="contentContainer" class="layout-container">
+      <div class="block">
+        <div class="contentHeader">
+          <h2 id="LocalResume">上传本地简历</h2>
 
+        </div>
+
+        </div>
 </template>
 
 <style>
@@ -372,12 +409,18 @@
 
 </style>
 <script setup lang="ts">
-import {reactive, ref, toRaw} from 'vue';
+import {onMounted, reactive, ref, toRaw} from 'vue';
 import type { UnwrapRef } from 'vue';
-
+import axios from 'axios';
 import type { Dayjs } from 'dayjs';
+import {dayjs} from "element-plus";
+
 type RangeValue = [Dayjs, Dayjs];
-const eduInfoEditMode = ref(false);//教育信息控制编辑
+// const eduInfoEditMode = ref(false);//教育信息控制编辑
+const eduControl = ref({
+  index:"",
+  condition:"false"
+});//实习经
 const practiceControl = ref({
   index:"",
   condition:"false"
@@ -394,43 +437,66 @@ const certificateControl=ref({
   index:"",
   condition:"false"
 });
-const eduInfo = ref({
+const eduInfo = ref([{
   schoolName: '',
   major: '',
   rank:'',
-  date:ref<RangeValue>(),
+  startDate:ref<Dayjs>(),
+  endDate:ref<Dayjs>(),
   education:'',
   lessonDescription:'',
-  score: ''
-});
+  score: '',
+  id:''
+}]);
 const practiceInfo = ref([
     {
   enterpriseName: '',
   jobName: '',
-  date:ref<RangeValue>(),
+  startDate:ref<Dayjs>(),
+  endDate:ref<Dayjs>(),
+  id:'',
   jobContent: ''
 }]);
 const organizationInfo = ref([
     {
   organizationName: '',
   jobName: '',
-  date:ref<RangeValue>(),
+  startDate:ref<Dayjs>(),
+  endDate:ref<Dayjs>(),
+  id:'',
   jobContent: ''
 }]);
 const projectInfo = ref([
     {
   projectName: '',
   jobName: '',
-  date:ref<RangeValue>(),
-  jobContent: ''
-}
+  startDate:ref<Dayjs>(),
+  endDate:ref<Dayjs>(),
+  jobContent: '',
+  id:'',
+    }
 ]);
+const monthFormat = 'YYYY/MM/DD';
 const certificates = ref([
   {
     certificateName: '',
-    date: ref<RangeValue>()
+    startDate: ref<Dayjs>(),
+    id:''
   }
 ]);
+const addEduInfo = () => {
+  eduInfo.value.push({
+    schoolName: '',
+    major: '',
+    rank:'',
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    education:'',
+    lessonDescription:'',
+    score: '',
+    id:''
+  });
+};
 const addPractice = () => {
   practiceInfo.value.push({
     enterpriseName: '',
@@ -443,28 +509,33 @@ const addOrganization = () => {
   organizationInfo.value.push({
     organizationName: '',
     jobName: '',
-    date:ref<RangeValue>(),
-    jobContent: ''
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    jobContent: '',
+    id:''
   });
 };
 const addProject = () => {
   projectInfo.value.push({
     projectName: '',
     jobName: '',
-    date:ref<RangeValue>(),
-    jobContent: ''
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    jobContent: '',
+    id:''
   });
 };
 const addCertificate = () => {
   certificates.value.push({
     certificateName: '',
-    date: null
+    startDate: ref<Dayjs>()
   });
 };
 
 // 用来判断是否处于编辑状态
-const eduInfoEdit = () => {
-  eduInfoEditMode.value = !eduInfoEditMode.value;
+const eduInfoEdit = (index: number) => {
+  eduControl.value.condition = !eduControl.value.condition;
+  eduControl.value.index= index;
 };
 const PracticeEdit = (index:number) => {
   practiceControl.value.condition = !practiceControl.value.condition;
@@ -479,51 +550,206 @@ const projectEdit = (index:number) => {
   projectControl.value.index= index;
 };
 const certificateEdit = (index: number) => {
-  certificateControl.value.condition = !certificateControl.value.condition;
-  certificateControl.value.index= index;
+  certificateControl.value = {
+    index: index,
+    condition: !certificateControl.value.condition
+  };
+};
+// 令牌处理
+const jwtToken = localStorage.getItem("jwtToken")
+const instance = axios.create({
+  baseURL: 'http://localhost:8081',
+  withCredentials: false,
+});
+
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  config.headers.Authorization = `${jwtToken}`;
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
+// 令牌处理结束
+const deleteEdu = (index: number) => {
+  eduInfo.value.splice(index, 1);
+  instance.post('/deleteEducation', {educationIndex:index})
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  setTimeout(selectEduInfo, 1000); // 2000 毫秒 = 2 秒
 };
 const deletePractice = (index: number) => {
   practiceInfo.value.splice(index, 1);
+  instance.post('/deletePractice', {practiceIndex:index})
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  setTimeout(selectPracticeInfo, 1000); // 2000 毫秒 = 2 秒
 };
 const deleteOrganization = (index: number) => {
   organizationInfo.value.splice(index, 1);
+  instance.post('/deleteOrganization', {organizationIndex:index})
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  setTimeout(selectOrganizationInfo, 1000); // 2000 毫秒 = 2 秒
 };
 const deleteCertificate = (index: number) => {
   certificates.value.splice(index, 1);
+  instance.post('/deleteCertification', {
+    certificationIndex:index
+    }
+  )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  setTimeout(selectCertificateInfo, 1000); // 2000 毫秒 = 2 秒
 };
 const deleteProject = (index: number) => {
  projectInfo.value.splice(index, 1);
+ instance.post('/deleteProject', {projectIndex:index})
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  setTimeout(selectProjectInfo, 1000); // 2000 毫秒 = 2 秒
 };
 
-const saveCertificate = (index: number, certificate: any) => {
-  // 这里是保存获奖经历信息的逻辑，与之前保存基本信息的逻辑类似
-  console.log('保存获奖经历信息:', certificate);
-};
 //上述这一块都是
-const savePracticeInfo = () => {
+const savePracticeInfo = (index: number) => {
   // 在这里处理保存基本信息的逻辑
-  console.log('保存基本信息:', practiceInfo.value);
-  eduInfoEditMode.value = false; // 保存后退出编辑模式
+  practiceInfo.value[index].id=index;
+  // 在这里处理保存基本信息的逻辑
+  console.log('保存基本信息:', practiceControl.value);
+  practiceControl.value.condition = !practiceControl.value.condition;
+  practiceControl.value.index= index;
+  instance.post('/savePractice', {
+        name:practiceInfo.value[index].enterpriseName,
+        practiceIndex:practiceInfo.value[index].id,
+        startDate:practiceInfo.value[index].startDate,
+        overDate:practiceInfo.value[index].endDate,
+        role:practiceInfo.value[index].jobName,
+        performance:practiceInfo.value[index].jobContent
+      }
+  )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
 };
-const saveEduInfo = () => {
+const saveEduInfo = (index:number) => {
+  alert(index)
   // 在这里处理保存基本信息的逻辑
-  console.log('保存基本信息:', eduInfo.value);
-  eduInfoEditMode.value = false; // 保存后退出编辑模式
+  eduInfo.value[index].id=index;
+  alert(eduInfo.value[index].id)
+  // 在这里处理保存基本信息的逻辑
+  console.log('保存基本信息:', eduControl.value);
+  eduControl.value.condition = !eduControl.value.condition;
+  eduControl.value.index= index;
+  instance.post('/saveEducation', {
+        school:eduInfo.value[index].schoolName,
+        educationIndex:eduInfo.value[index].id,
+        startDate:eduInfo.value[index].startDate,
+        overDate:eduInfo.value[index].endDate,
+        rank:eduInfo.value[index].rank,
+        score:eduInfo.value[index].score,
+        education:eduInfo.value[index].education,
+        major:eduInfo.value[index].major,
+        lessonDescription:eduInfo.value[index].lessonDescription
+      }
+  )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
 };
-const saveOrganizationInfo = () => {
+const saveOrganizationInfo = (index:number) => {
+
   // 在这里处理保存基本信息的逻辑
-  console.log('保存基本信息:', organizationInfo.value);
-  organizationEditMode.value = false; // 保存后退出编辑模式
+  organizationInfo.value[index].id=index;
+  // 在这里处理保存基本信息的逻辑
+  console.log('保存基本信息:', organizationControl.value);
+  organizationControl.value.condition = !organizationControl.value.condition;
+  organizationControl.value.index= index;
+  instance.post('/saveOrganization', {
+        name:organizationInfo.value[index].organizationName,
+        organizationIndex:organizationInfo.value[index].id,
+        startDate:organizationInfo.value[index].startDate,
+        overDate:organizationInfo.value[index].endDate,
+        role:organizationInfo.value[index].jobName,
+        statement:organizationInfo.value[index].jobContent
+      }
+  )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
 };
-const saveProjectInfo = () => {
+const saveProjectInfo = (index:number) => {
   // 在这里处理保存基本信息的逻辑
-  console.log('保存基本信息:', projectInfo.value);
-  projectEditMode.value = false; // 保存后退出编辑模式
+  projectInfo.value[index].id=index;
+  // 在这里处理保存基本信息的逻辑
+  console.log('保存基本信息:', certificateControl.value);
+  projectControl.value.condition = !projectControl.value.condition;
+  projectControl.value.index= index;
+  instance.post('/saveProject', {
+    name:projectInfo.value[index].projectName,
+    projectIndex:projectInfo.value[index].id,
+    startDate:projectInfo.value[index].startDate,
+    overDate:projectInfo.value[index].endDate,
+    role:projectInfo.value[index].jobName,
+    performance:projectInfo.value[index].jobContent
+      }
+  )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
 };
-const saveCertificateInfo = () => {
+
+const saveCertificateInfo = (index:number) => {
+  certificates.value[index].id=index;
   // 在这里处理保存基本信息的逻辑
-  console.log('保存基本信息:', certificateInfo.value);
-  certificateEditMode.value = false; // 保存后退出编辑模式
+  console.log('保存基本信息:', certificateControl.value);
+  certificateControl.value.condition = !certificateControl.value.condition;
+  certificateControl.value.index= index;
+  instance.post('/certification', {
+    name:certificates.value[index].certificateName,
+        certificationIndex:certificates.value[index].id,
+    startTime:certificates.value[index].startDate}
+    )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
 };
 interface FormState {
   name: string;
@@ -540,9 +766,123 @@ const formState: UnwrapRef<FormState> = reactive({
   desc: '',
 });
 
-const onSubmit = () => {
-  console.log('submit!', toRaw(formState));
-};
 const labelCol = { style: { width: '150px' } };
 const wrapperCol = { span: 14 };
+
+// 页面加载时发送请求查询获奖证书信息
+onMounted(() => {
+  selectEduInfo();
+  selectPracticeInfo();
+  selectProjectInfo();
+  selectOrganizationInfo();
+  selectCertificateInfo();
+});
+const selectEduInfo = async () =>{
+  try {
+    const response = await instance.get("/iniEducation")
+    // certificates.value = response.data;
+    response.data.data.forEach((item: { school: any; startDate: string | Dayjs | Date | null | undefined;educationIndex: number;overDate: string | Dayjs | Date | null | undefined; education:string;rank:string;major:string;score:number;lessonDescription:string}, index: number) => {
+      const { school, startDate, educationIndex ,overDate,rank,score,major,education,lessonDescription} = item;
+      eduInfo.value[index] = {
+        schoolName:school,
+        id:educationIndex,
+        startDate:ref<Dayjs>(dayjs(startDate,'YYYY-MM-DD')),
+        endDate:ref<Dayjs>(dayjs(overDate,'YYYY-MM-DD')),
+        education:education,
+        rank:rank,
+        score:score,
+        lessonDescription:lessonDescription,
+        major:major
+      };
+    });
+    console.log(response.data.data)
+  }catch (e){
+    alert("Edu error")
+  }
+}
+const selectPracticeInfo = async () =>{
+  try {
+    const response = await instance.get("/iniPractice")
+    // certificates.value = response.data;
+
+    response.data.data.forEach((item: { name: any; startDate: string | Dayjs | Date | null | undefined;practiceIndex: number;overDate: string | Dayjs | Date | null | undefined; role:string;performance:string}, index: number) => {
+      const { name, startDate, practiceIndex ,overDate,role,performance} = item;
+      practiceInfo.value[index] = {
+        enterpriseName:name,
+        id:practiceIndex,
+        startDate:ref<Dayjs>(dayjs(startDate,'YYYY-MM-DD')),
+        endDate:ref<Dayjs>(dayjs(overDate,'YYYY-MM-DD')),
+        jobName:role,
+        jobContent:performance
+      };
+    });
+    console.log(response.data.data)
+  }catch (e){
+    alert("Practice error")
+  }
+}
+const selectOrganizationInfo = async () =>{
+  try {
+    const response = await instance.get("/iniOrganization")
+    // certificates.value = response.data;
+    response.data.data.forEach((item: { name: any; startDate: string | Dayjs | Date | null | undefined;organizationIndex: number;overDate: string | Dayjs | Date | null | undefined; role:string;statement:string}, index: number) => {
+      const { name, startDate, organizationIndex ,overDate,role,statement} = item;
+      organizationInfo.value[index] = {
+        organizationName:name,
+        id:organizationIndex,
+        startDate:ref<Dayjs>(dayjs(startDate,'YYYY-MM-DD')),
+        endDate:ref<Dayjs>(dayjs(overDate,'YYYY-MM-DD')),
+        jobName:role,
+        jobContent:statement
+      };
+    });
+    console.log(response.data.data)
+  }catch (e){
+    alert("Organization error")
+  }
+}
+const selectProjectInfo = async () =>{
+  try {
+    const response = await instance.get("/iniProject")
+    // certificates.value = response.data;
+    response.data.data.forEach((item: { name: any; startDate: string | Dayjs | Date | null | undefined;projectIndex: number;overDate: string | Dayjs | Date | null | undefined; role:string;performance:string}, index: number) => {
+      const { name, startDate, projectIndex ,overDate,role,performance} = item;
+      projectInfo.value[index] = {
+        projectName:name,
+        id:projectIndex,
+        startDate:ref<Dayjs>(dayjs(startDate,'YYYY-MM-DD')),
+        endDate:ref<Dayjs>(dayjs(overDate,'YYYY-MM-DD')),
+        jobName:role,
+        jobContent:performance
+      };
+    });
+    console.log(response.data.data)
+  }catch (e){
+    alert("Project error")
+  }
+}
+const selectCertificateInfo = async () =>{
+  try {
+    const response = await instance.get("/inicertificates")
+    // certificates.value = response.data;
+    response.data.data.forEach((item: { name: any; startTime: string | number | Dayjs | Date | null | undefined;certificationIndex: number }, index: number) => {
+      const { name, startTime, certificationIndex } = item;
+      certificates.value[index] = {
+        certificateName: name,
+        startTime:ref<Dayjs>(dayjs(startTime, 'YYYY-MM-DD')),
+        id: certificationIndex
+      };
+    });
+    console.log(response.data.data)
+    console.log("hh")
+    console.log(certificates.value.startDate)
+  }catch (e){
+    alert("Certificate error")
+  }
+}
+const formatDate = (date: string | number | Date | ref<Dayjs>) => {
+  if (!date) return ''; // 如果日期不存在，返回空字符串
+  const formattedDate = new Date(date).toISOString().split('T')[0]; // 将日期转换为 ISO 格式，然后提取日期部分
+  return formattedDate;
+};
 </script>
