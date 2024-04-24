@@ -30,32 +30,15 @@
           >
             <a-menu-item key="1">
               <user-outlined />
-              <a href="#eduInfo">教育信息</a>
+              <a href="">投递记录</a>
             </a-menu-item>
             <a-menu-item key="2">
               <user-outlined />
-              <a href="#practiceInfo"> 实习经历 </a>
-            </a-menu-item>
-            <a-menu-item key="3">
-              <notification-outlined />
-              <a href="#organizationInfo"> 社团/组织经历</a>
-            </a-menu-item>
-            <a-menu-item key="4">
-              <notification-outlined />
-              <a href="#projectInfo"> 学术/项目经历</a>
-            </a-menu-item>
-            <a-menu-item key="5">
-              <laptop-outlined />
-              <a href="#certificationInfo">获奖经历</a>
-            </a-menu-item>
-            <a-menu-item key="6">
-              <laptop-outlined />
-              <a href="#skillInfo"> 个人技能</a>
+              <a href=""> 岗位收藏 </a>
             </a-menu-item>
           </a-menu>
         </a-layout-sider>
         <a-layout-content :style="{ marginLeft: '200px' }">
-          <resume-content></resume-content> <!-- 使用新创建的组件 -->
           <div style="height: 800px;"></div>
         </a-layout-content>
       </a-layout>
@@ -70,7 +53,7 @@
 import ResumeContent from '../../components/student/ResumeContent.vue'; // 引入新创建的组件
 import { ref } from 'vue';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
-const sidebarTitle = ref('在线简历');
+const sidebarTitle = ref('我的投递');
 const selectedKeys1 = ref<string[]>(['2']);
 const selectedKeys2 = ref<string[]>(['1']);
 const openKeys = ref<string[]>(['sub1']);
