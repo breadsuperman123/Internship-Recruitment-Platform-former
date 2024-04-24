@@ -13,6 +13,10 @@ import EnterpriseHome from "@/router/enterprise/EnterpriseHome.vue";
 import ChatHome from "@/components/enterprise/function/chat/ChatHome.vue";
 import ChatLoginHome from "@/components/enterprise/function/chat/ChatLoginHome.vue";
 import PostSubmitSituationView from "@/router/enterprise/submit/PostSubmitSituationView.vue";
+import StudentHomePage from "@/router/student/homepage/StudentHomePage.vue";
+import StudentSearchPage from "@/router/student/homepage/StudentSearchPage.vue";
+import StudentMainSearch from "@/router/student/homepage/StudentMainSearch.vue";
+import SpecificPostInfo from "@/router/student/homepage/SpecificPostInfo.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -86,6 +90,29 @@ const routes: Array<RouteRecordRaw> = [
     path:'/postSubmitSituationView',
     name:'postSubmitSituationView',   // 聊天
     component:PostSubmitSituationView
+  },
+  {
+    path:'/studentHomePage',
+    name:'studentHomePage',   // 学生首页
+    component:StudentHomePage
+  },
+  {
+    path: '/studentSearchPage/:bigType/:smallType',
+    name: 'studentSearchPage',
+    component: StudentSearchPage,
+    props: true // 启用 props 接收路由参数
+  },
+  {
+    path: '/studentMainSearch/:searchValue/:searchData',
+    name: 'studentMainSearch',
+    component: StudentMainSearch,
+    props: true // 启用 props 接收路由参数
+  },
+  {
+    path: '/specificPostInfo/:postName',
+    name: 'specificPostInfo',
+    component: SpecificPostInfo,
+    props: true // 启用 props 接收路由参数
   },
 
 ]

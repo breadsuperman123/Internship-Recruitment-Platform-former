@@ -113,7 +113,7 @@ const onFinish = async () => {
 
       // 将令牌保存到本地存储或状态管理系统中，以便在后续请求中使用
       localStorage.setItem('jwtToken', token);
-      return router.push('/studentHome');
+      return router.push('/studentHomePage');
     } else if(responseCode == 1 && loginType.value == 'enterprise'){
       const token = response.data.data;
 
