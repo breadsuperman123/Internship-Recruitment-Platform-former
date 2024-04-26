@@ -8,14 +8,21 @@ const value = ref<string>('');
 
 const onSearch = async (searchValue: string) => {
   try {
-    const response = await axios.post('http://localhost:8081/sendInput', { searchValue });
-    const searchData = response.data;
-    const searchDataString = JSON.stringify(searchData);
-    await router.push({ name: 'studentMainSearch', params: { searchValue, searchData: searchDataString } });
+    const trimmedSearchValue = searchValue.trim();
+    if (trimmedSearchValue !== '') { // 检查输入框是否有内容
+      const response = await axios.post('http://localhost:8081/sendInput', { searchValue: trimmedSearchValue });
+      const searchData = response.data;
+      const searchDataString = JSON.stringify(searchData);
+      await router.push({ name: 'studentMainSearch', params: { searchValue: trimmedSearchValue, searchData: searchDataString } });
+    } else {
+      console.error('搜索值不能为空');
+      await router.push({ name: 'studentMainSearch', params: { searchValue: 'empty', searchData: JSON.stringify('') } }); // 将默认值作为参数传递给路由
+    }
   } catch (error) {
     console.error('请求失败：', error);
   }
 };
+
 
 const contentStyle: CSSProperties = {
   textAlign: 'center',

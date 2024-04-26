@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import axios from 'axios';
-import { ElMessage } from 'element-plus'; // 确保引入了 Element Plus 的 ElMessage 消息框组件
+import { ElMessage } from 'element-plus';
+import router from "@/router"; // 确保引入了 Element Plus 的 ElMessage 消息框组件
 
 const form = reactive({
   name: '',
@@ -28,12 +29,12 @@ const onSubmit = async () => {
     // 从后端返回的数据中提取消息内容
 
     // 根据后端返回的数据显示消息框
-    if (response.data.success) {
-      ElMessage.success("成功注册"); // 显示成功消息
+    if (response.data.code === 1 && response.data.msg === 'success') {
+      ElMessage.success(response.data.data); // 显示成功消息
+      await router.push({name: 'studentLogin'});
     } else {
-      ElMessage.error("注册失败，请检查您的验证码以及其他信息是否正确以及一个手机号只能绑定一个账号"); // 显示失败消息
+      ElMessage.error(response.data.data); // 显示失败消息
     }
-
   } catch (error) {
     console.error(error);
     ElMessage.error('请求出错，请稍后再试'); // 显示请求出错消息

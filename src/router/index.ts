@@ -109,7 +109,7 @@ const routes: Array<RouteRecordRaw> = [
     props: true // 启用 props 接收路由参数
   },
   {
-    path: '/specificPostInfo/:postName',
+    path: '/specificPostInfo/:postName/:postData',
     name: 'specificPostInfo',
     component: SpecificPostInfo,
     props: true // 启用 props 接收路由参数
