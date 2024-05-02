@@ -9,9 +9,16 @@
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">nav 1</a-menu-item>
-        <a-menu-item key="2">nav 2</a-menu-item>
-        <a-menu-item key="3">nav 3</a-menu-item>
+        <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
+        <a-menu-item key="2">职位百科</a-menu-item>
+        <a-dropdown>
+          <template v-slot:overlay>
+            <a-menu style="width: 200px">
+              <student-prim-page></student-prim-page>
+            </a-menu>
+          </template>
+          <a-menu-item key="3">我的</a-menu-item>
+        </a-dropdown>
       </a-menu>
     </a-layout-header>
     <a-layout-content :style="{paddingTop:'64px' }">
@@ -106,8 +113,13 @@ const formState = reactive<Record<string, any>>({
 onMounted(showDefaultPost);
 
 import router from "@/router";
+import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
 
 const route = useRoute();
+function goToHomePage() {
+  // 使用 router.push() 方法跳转到学生首页
+  router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
+}
 // 打印要传递给 studentSearchInput 组件的路由参数
 console.log('Route params in studentSearchPage:', route.params);
 

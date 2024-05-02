@@ -8,9 +8,16 @@
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">导航1</a-menu-item>
-        <a-menu-item key="2">导航2</a-menu-item>
-        <a-menu-item key="3">导航3</a-menu-item>
+        <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
+        <a-menu-item key="2">职位百科</a-menu-item>
+        <a-dropdown>
+          <template v-slot:overlay>
+            <a-menu style="width: 200px">
+              <student-prim-page></student-prim-page>
+            </a-menu>
+          </template>
+          <a-menu-item key="3">我的</a-menu-item>
+        </a-dropdown>
       </a-menu>
     </a-layout-header>
     <a-layout-content style="ding: 0 50px">
@@ -33,12 +40,20 @@ import {ref} from 'vue';
 import PostBriefInfo from "@/router/student/homepage/PostBriefInfo.vue";
 import PostPoint from "@/router/student/homepage/PostPoint.vue";
 import {useRoute} from "vue-router";
+import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
+import router from "@/router";
 const selectedKeys = ref<string[]>(['2']);
+function goToHomePage() {
+  // 使用 router.push() 方法跳转到学生首页
+  router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
+}
 // 从路由中获取参数
 const route = useRoute();
 const jobPosts = ref([]);
 jobPosts.value = JSON.parse(route.params.postData)[0]; // 只取数组中的第一个岗位信息
 console.log(route.params.postData)
+
+
 </script>
 <style scoped>
 .post-container {
@@ -49,6 +64,23 @@ console.log(route.params.postData)
 .post-component {
   flex: 1;
 }
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  z-index: 9999;
+}
 
+.modal-content {
+  text-align: center;
+}
+
+.modal button {
+  margin: 10px;
+}
 
 </style>

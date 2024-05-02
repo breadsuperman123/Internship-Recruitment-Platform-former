@@ -1,5 +1,7 @@
 <script setup lang="ts" >
-import {CSSProperties, defineProps} from "vue";
+import {CSSProperties, defineProps, reactive} from "vue";
+import axios from "axios";
+import router from "@/router";
 
 const contentStyle: CSSProperties = {
   textAlign: 'center',
@@ -25,6 +27,25 @@ const props = defineProps({
     required: true
   }
 });
+
+
+
+const selectEnterpriseInfo = async () => {
+  try {
+    const enterpriseName = props.post.enterpriseName;
+    const response = await axios.post("http://localhost:8081/sendEnterpriseNameGetInfo", { enterpriseName });
+    const data = response.data;
+    const dataString=JSON.stringify(data)
+    const response1 = await axios.post("http://localhost:8081/sendEnterpriseNameGetAllPost", { enterpriseName });
+    const data1 = response1.data;
+    const dataString1=JSON.stringify(data1)
+    await router.push({name: 'studentSelectEnterprisePost', params: {enterpriseInfo: dataString,searchData:dataString1}})
+  }
+  catch (error){
+    console.error('Error while fetching enterprise info:', error);
+
+  }
+};
 </script>
 
 <template>
@@ -46,7 +67,7 @@ const props = defineProps({
         <div style="padding-left: 30px;padding-right: 10px">
         <h3>{{ post.enterpriseName }}</h3>
         </div>
-          <img :src="post.logoUrl" alt="企业logo">
+            <img :src="post.logoUrl" alt="企业logo" class="img" @click="selectEnterpriseInfo">
         </div>
         <p class="demand-box-info">{{ post.enterpriseDescription }}</p>
         <p style="margin-right: 30px;line-height: 2 ;font-size: 20px"><img src="/地址logo.png" alt="地址logo" class="address-logo">{{ post.address }}</p>

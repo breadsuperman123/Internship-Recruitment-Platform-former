@@ -67,9 +67,10 @@ const contentStyle: CSSProperties = {
       <div class="search-container">
         <a-input-search
             v-model:value="value"
-            placeholder="input search text"
+            placeholder="请输入您感兴趣的岗位"
             enter-button
             @search="onSearch"
+            size="large"
         />
       </div>
       <a-layout-content :style="contentStyle">

@@ -17,6 +17,9 @@ import StudentHomePage from "@/router/student/homepage/StudentHomePage.vue";
 import StudentSearchPage from "@/router/student/homepage/StudentSearchPage.vue";
 import StudentMainSearch from "@/router/student/homepage/StudentMainSearch.vue";
 import SpecificPostInfo from "@/router/student/homepage/SpecificPostInfo.vue";
+import StudentResume from "@/router/student/StudentResume.vue";
+import StudentPost from "@/router/student/StudentPost.vue";
+import StudentSelectEnterprisePost from "@/router/student/homepage/StudentSelectEnterprisePost.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -114,7 +117,21 @@ const routes: Array<RouteRecordRaw> = [
     component: SpecificPostInfo,
     props: true // 启用 props 接收路由参数
   },
-
+  {
+    path:'/studentResume',
+    name:'studentResume',   // 在线简历
+    component:StudentResume
+  },
+  {
+    path:'/studentPost',
+    name:'studentPost',   // 投递流程
+    component:StudentPost
+  },
+  {
+    path:'/studentSelectEnterprisePost/:enterpriseInfo/:searchData',
+    name:'studentSelectEnterprisePost',   // 投递流程
+    component:StudentSelectEnterprisePost
+  }
 ]
 
 const router = createRouter({

@@ -41,6 +41,7 @@ const navigateToPost = async () => {
     console.error('请求失败：', error);
   }
 }
+
 </script>
 
 <style scoped>

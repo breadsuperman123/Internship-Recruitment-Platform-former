@@ -24,7 +24,7 @@ const jobPosts = ref([]);
 if (route.params.searchData) {
   jobPosts.value = JSON.parse(route.params.searchData);
 }
-const postsPerColumn = 2;
+const postsPerColumn = 90;
 const columns = ref([]);
 
 const computeColumns = () => {

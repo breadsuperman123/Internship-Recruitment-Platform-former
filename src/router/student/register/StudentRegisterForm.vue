@@ -58,10 +58,11 @@ const sendCode = async () => {
 
 
 <template>
+  <div class="background-container">
   <div class="container">
     <el-form :model="form" label-width="auto" style="max-width: 600px" class="my-form">
       <el-form-item label="姓名">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.name" placeholder="请输入您的姓名" />
       </el-form-item>
       <el-form-item label="用户名">
         <el-input v-model="form.username" placeholder="请输入您的用户名">
@@ -97,11 +98,15 @@ const sendCode = async () => {
       </el-row>
 
     </el-form>
-
+  </div>
   </div>
 </template>
 
 <style scoped>
+.background-container {
+
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -112,7 +117,6 @@ const sendCode = async () => {
 .my-form {
   max-width: 800px;
   /* 根据需要添加更多样式 */
-  background-color: transparent; /* 设置背景颜色为透明 */
   color: black; /* 设置文本颜色为黑色 */
   font-size: 2em; /* 设置字体大小为2em，使整个表单看起来更大 */
 }

@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue';
 import NewPost from '@/router/student/homepage/RecommandNewPost.vue'; // 导入你的 NewPost 组件
-import PopularPost from '@/router/student/homepage/PopularPost.vue'; // 导入你的 PopularPost 组件
+import PopularPost from '@/router/student/homepage/RecommandPopularPost.vue'; // 导入你的 PopularPost 组件
 
 const selectedKeys1 = ref<string[]>(['1']);
 const selectedComponent = ref<string>('newPost');

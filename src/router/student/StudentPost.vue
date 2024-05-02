@@ -8,10 +8,16 @@
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">nav 1</a-menu-item>
-        <a-menu-item key="2">nav 2</a-menu-item>
-        <a-menu-item key="3">nav 3</a-menu-item>
-      </a-menu>
+        <a-menu-item key="1">首页</a-menu-item>
+        <a-menu-item key="2">职位百科</a-menu-item>
+        <a-dropdown>
+          <template v-slot:overlay>
+            <a-menu style="width: 200px">
+              <student-prim-page></student-prim-page>
+            </a-menu>
+          </template>
+          <a-menu-item key="3">我的</a-menu-item>
+        </a-dropdown>      </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
@@ -53,6 +59,7 @@
 import ResumeContent from '../../components/student/ResumeContent.vue'; // 引入新创建的组件
 import { ref } from 'vue';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
+import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
 const sidebarTitle = ref('我的投递');
 const selectedKeys1 = ref<string[]>(['2']);
 const selectedKeys2 = ref<string[]>(['1']);
