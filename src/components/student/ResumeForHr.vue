@@ -1,377 +1,133 @@
 <template>
-    <!-- 第一块 -->
-    <div class="block">
-      <div ref="contentContainer" class="layout-container">
-        <div class="block">
-          <div class="contentHeader">
-            <h2 id="eduInfo">教育信息</h2>
-            <a-button type="primary" shape="circle" @click="addEduInfo">添加</a-button>
-            <!--<button @click="toggleEditMode">{{ editMode ? '取消' : '编辑' }}</button>-->
+  <!-- 第一块 -->
+  <div class="block">
+    <div ref="contentContainer" class="layout-container">
+      <div class="block">
+        <div class="contentHeader">
+          <h2 id="eduInfo">教育信息</h2>
           </div>
-          <div v-if="eduControl.condition">
-            <div v-for="(edu, index) in eduInfo" :key="index">
+        <div v-if="eduControl.condition">
+          <div v-for="(edu, index) in eduInfo" :key="index">
             <a-card style="width: 600px">
-            <p>{{ edu.schoolName || '未填写' }} | {{ edu.major || '未填写' }}</p>
-            <!-- GPA和成绩排名 -->
-            <p>{{ edu.score || '未填写' }} | {{ edu.rank || '未填写' }}</p>
-            <!-- 在校时间和学历 -->
-            <p> {{ formatDate(edu.startDate) || '未填写' }} —— {{ formatDate(edu.endDate) || '未填写' }}| {{ edu.education || '未填写' }}</p>
-            <!-- 主修课程描述 -->
-            <p>{{ edu.lessonDescription || '未填写' }}</p>
-              <a-row>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle" @click="eduInfoEdit(index) ">编辑</a-button>
-                </a-col>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle"  @click="deleteEdu(index)" >删除</a-button>
-                </a-col>
-              </a-row>
+              <p>{{ edu.schoolName || '未填写' }} | {{ edu.major || '未填写' }}</p>
+              <!-- GPA和成绩排名 -->
+              <p>{{ edu.score || '未填写' }} | {{ edu.rank || '未填写' }}</p>
+              <!-- 在校时间和学历 -->
+              <p> {{ formatDate(edu.startDate) || '未填写' }} —— {{ formatDate(edu.endDate) || '未填写' }}| {{ edu.education || '未填写' }}</p>
+              <!-- 主修课程描述 -->
+              <p>{{ edu.lessonDescription || '未填写' }}</p>
             </a-card>
 
-            </div>
           </div>
-            <div class="form-container" v-if="!eduControl.condition">
-            <a-form :model="eduInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="!eduControl.condition" @submit.prevent="saveEduInfo">
-              <a-row>
-                <a-col :span="12">
-                  <a-form-item label="学校">
-                    <a-input v-model:value="eduInfo[eduControl.index].schoolName" size="large" />
-                  </a-form-item>
-                </a-col>
-                <a-col :span="12" >
-                  <a-form-item label="专业">
-                    <a-input v-model:value="eduInfo[eduControl.index].major" size="large" />
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col :span="12">
-                  <a-form-item label="GPA">
-                    <a-input v-model:value="eduInfo[eduControl.index].score" size="large" />
-                  </a-form-item>
-                </a-col>
-                <a-col :span="12" >
-                  <a-form-item label="成绩排名">
-                      <a-select ref="select" v-model:value="eduInfo[eduControl.index].rank" size="large">
-                        <a-select-option value="前10%">前10%</a-select-option>
-                        <a-select-option value="前25%">前25%</a-select-option>
-                        <a-select-option value="前50%" >前50%</a-select-option>
-                        <a-select-option value="其他">其他</a-select-option>
-                      </a-select>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col :span="8">
-                  <a-form-item label="开始时间">
-                    <a-date-picker v-model:value="eduInfo[eduControl.index].startDate"  size="large"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :span="8">
-                  <a-form-item label="开始时间">
-                    <a-date-picker v-model:value="eduInfo[eduControl.index].endDate"  size="large"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :span="8" >
-                  <a-form-item label="学历">
-                    <a-select ref="select" v-model:value="eduInfo[eduControl.index].education" size="large">
-                      <a-select-option value="大专">大专</a-select-option>
-                      <a-select-option value="本科">本科</a-select-option>
-                      <a-select-option value="硕士" >硕士</a-select-option>
-                      <a-select-option value="博士">博士</a-select-option>
-                      <a-select-option value="其他">其他</a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col :span="24" >
-                  <a-form-item label="主修课程描述">
-                    <a-textarea v-model:value="eduInfo[eduControl.index].lessonDescription" placeholder="请简要描述您的主修课程" :rows="4" />
-                    <!--                  <a-input v-model:value="practiceInfo.jobContent" size="large"/>-->
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-                <a-button type="primary" @click="saveEduInfo(eduControl.index)">保存</a-button>
-              </a-form-item>
-            </a-form>
         </div>
-        </div>
+
       </div>
     </div>
-    <!-- 横线 -->
-    <div class="divider"></div>
-    <!-- 第二块 -->
+  </div>
+  <!-- 横线 -->
+  <div class="divider"></div>
+  <!-- 第二块 -->
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
         <div class="contentHeader">
           <h2 id="practiceInfo">实习经历</h2>
-          <a-button type="primary" shape="circle" @click="addPractice">添加</a-button>
-        </div>
+         </div>
         <div v-if="practiceControl.condition">
           <div v-for="(practice, index) in practiceInfo" :key="index">
             <a-card style="width: 600px">
-          <p>{{ practice.enterpriseName || '未填写' }} | {{ practice.jobName || '未填写' }}</p>
-          <!-- GPA和成绩排名 -->
-          <p>{{ formatDate(practice.startDate) || '未填写' }} —— {{ formatDate(practice.endDate) || '未填写' }} </p>
-          <!-- 主修课程描述 -->
-          <p>{{ practice.jobContent || '未填写' }}</p>
-              <a-row>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle" @click="PracticeEdit(index) ">编辑</a-button>
-                </a-col>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle"  @click="deletePractice(index)" >删除</a-button>
-                </a-col>
-              </a-row>
+              <p>{{ practice.enterpriseName || '未填写' }} | {{ practice.jobName || '未填写' }}</p>
+              <!-- GPA和成绩排名 -->
+              <p>{{ formatDate(practice.startDate) || '未填写' }} —— {{ formatDate(practice.endDate) || '未填写' }} </p>
+              <!-- 主修课程描述 -->
+              <p>{{ practice.jobContent || '未填写' }}</p>
+
             </a-card>
-        </div>
-        </div>
-          <div class="form-container" v-if="!practiceControl.condition">
-            <a-form :model="practiceInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="!practiceControl.condition" @submit.prevent="savePracticeInfo">
-              <a-row>
-                <a-col :span="12">
-                  <a-form-item label="公司名称">
-                    <a-input v-model:value="practiceInfo[practiceControl.index].enterpriseName" size="large" />
-                  </a-form-item>
-                </a-col>
-                <a-col :span="12" >
-                  <a-form-item label="职位名称">
-                    <a-input v-model:value="practiceInfo[practiceControl.index].jobName" size="large" />
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col :span="12" >
-                  <a-form-item label="开始时间">
-                    <a-date-picker v-model:value="practiceInfo[practiceControl.index].startDate"  size="large"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :span="12" >
-                  <a-form-item label="结束时间">
-                    <a-date-picker v-model:value="practiceInfo[practiceControl.index].endDate"  size="large"/>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col :span="24" >
-                <a-form-item label="工作内容">
-                  <a-input v-model:value="practiceInfo[practiceControl.index].jobContent" size="large"/>
-                </a-form-item>
-                </a-col>
-              </a-row>
-              <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-                <a-button type="primary" @click="savePracticeInfo(practiceControl.index)">保存</a-button>
-              </a-form-item>
-            </a-form>
           </div>
         </div>
+      </div>
     </div>
   </div>
 
-    <!-- 横线 -->
-    <div class="divider"></div>
-    <!-- 第三块 -->
+  <!-- 横线 -->
+  <div class="divider"></div>
+  <!-- 第三块 -->
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
         <div class="contentHeader">
           <h2 id="organizationInfo">社团/组织经历</h2>
-          <a-button type="primary" shape="circle" @click="addOrganization">添加</a-button>
-        </div>
+           </div>
         <div v-if="organizationControl.condition">
           <div v-for="(organization, index) in organizationInfo" :key="index">
             <a-card style="width: 600px">
-          <p>{{ organization.organizationName || '未填写' }} | {{ organization.jobName || '未填写' }}</p>
-          <!-- 经历时间 -->
-          <p>{{ formatDate(organization.startDate) || '未填写' }} —— {{ formatDate(organization.endDate) || '未填写' }}</p>
-          <!-- 主要工作描述 -->
-          <p>{{ organization.jobContent || '未填写' }}</p>
-              <a-row>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle" @click="organizationEdit(index) ">编辑</a-button>
-                </a-col>
-                <a-col :span="2">
-                  <a-button type="primary" shape="circle"  @click="deleteOrganization(index)" >删除</a-button>
-                </a-col>
-              </a-row>
+              <p>{{ organization.organizationName || '未填写' }} | {{ organization.jobName || '未填写' }}</p>
+              <!-- 经历时间 -->
+              <p>{{ formatDate(organization.startDate) || '未填写' }} —— {{ formatDate(organization.endDate) || '未填写' }}</p>
+              <!-- 主要工作描述 -->
+              <p>{{ organization.jobContent || '未填写' }}</p>
+
             </a-card>
           </div>
-        </div>
-        <div class="form-container" v-if="!organizationControl.condition">
-          <a-form :model="organizationInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="!organizationControl.condition" @submit.prevent="saveOrganizationInfo">
-            <a-row>
-              <a-col :span="12">
-                <a-form-item label="社团/组织名称">
-                  <a-input v-model:value="organizationInfo[organizationControl.index].organizationName" size="large" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12" >
-                <a-form-item label="担任职务">
-                  <a-input v-model:value="organizationInfo[organizationControl.index].jobName" size="large" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="12" >
-                <a-form-item label="开始时间">
-                  <a-date-picker v-model:value="organizationInfo[organizationControl.index].startDate"  size="large"/>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12" >
-                <a-form-item label="结束时间">
-                  <a-date-picker v-model:value="organizationInfo[organizationControl.index].endDate"  size="large"/>
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" >
-                <a-form-item label="工作内容">
-                  <a-textarea v-model:value="organizationInfo[organizationControl.index].jobContent" placeholder="请简要描述您的社团工作经历" :rows="4" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="saveOrganizationInfo(organizationControl.index)">保存</a-button>
-            </a-form-item>
-          </a-form>
         </div>
       </div>
     </div>
   </div>
-    <!-- 横线 -->
-    <div class="divider"></div>
-    <!-- 第四块 -->
+  <!-- 横线 -->
+  <div class="divider"></div>
+  <!-- 第四块 -->
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
         <div class="contentHeader">
           <h2 id="projectInfo">学术/项目经历</h2>
-          <a-button type="primary" shape="circle" @click="addProject">添加</a-button>
-        </div>
+          </div>
         <div v-if="projectControl.condition">
           <div v-for="(project, index) in projectInfo" :key="index">
             <a-card style="width: 600px">
-          <p>{{ project.projectName || '未填写' }} | {{ project.jobName || '未填写' }}</p>
-          <!-- 经历时间 -->
-          <p>{{ formatDate(project.startDate) || '未填写' }} —— {{ formatDate(project.endDate) || '未填写' }} </p>
-          <!-- 主要工作描述 -->
-          <p>{{ project.jobContent || '未填写' }}</p>
-          <a-row>
-            <a-col :span="2">
-              <a-button type="primary" shape="circle" @click="projectEdit(index) ">编辑</a-button>
-            </a-col>
-            <a-col :span="2">
-              <a-button type="primary" shape="circle"  @click="deleteProject(index)" >删除</a-button>
-            </a-col>
-          </a-row>
-        </a-card>
-      </div>
+              <p>{{ project.projectName || '未填写' }} | {{ project.jobName || '未填写' }}</p>
+              <!-- 经历时间 -->
+              <p>{{ formatDate(project.startDate) || '未填写' }} —— {{ formatDate(project.endDate) || '未填写' }} </p>
+              <!-- 主要工作描述 -->
+              <p>{{ project.jobContent || '未填写' }}</p>
+
+            </a-card>
+          </div>
         </div>
 
-        <div class="form-container" v-if="!projectControl.condition">
-          <a-form :model="projectInfo" :label-col="labelCol" :wrapper-col="wrapperCol" v-if="!projectControl.condition" @submit.prevent="saveProjectInfo">
-            <a-row>
-              <a-col :span="12">
-                <a-form-item label="项目名称">
-                  <a-input v-model:value="projectInfo[projectControl.index].projectName" size="large" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12" >
-                <a-form-item label="担任职务">
-                  <a-input v-model:value="projectInfo[projectControl.index].jobName" size="large" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="12" >
-                <a-form-item label="开始时间">
-                  <a-date-picker v-model:value="projectInfo[projectControl.index].startDate"  size="large"/>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12" >
-                <a-form-item label="结束时间">
-                  <a-date-picker v-model:value="projectInfo[projectControl.index].endDate"  size="large"/>
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="24" >
-                <a-form-item label="工作内容">
-                  <a-textarea v-model:value="projectInfo[projectControl.index].jobContent" placeholder="请简要描述您的项目工作" :rows="4" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="saveProjectInfo(projectControl.index)">保存</a-button>
-            </a-form-item>
-          </a-form>
-        </div>
+
       </div>
     </div>
   </div>
   <div class="divider"></div>
-<!--  获奖经历块-->
+  <!--  获奖经历块-->
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
         <div class="contentHeader">
           <h2 id="certificationInfo">获奖经历</h2>
-          <a-button type="primary" shape="circle" @click="addCertificate">添加</a-button>
-        </div>
+          </div>
         <div v-if="certificateControl.condition">
-        <div v-for="(certificate, index) in certificates" :key="index">
-          <a-card style="width: 600px">
-            <p>{{ certificate.certificateName || '未填写' }} | {{ formatDate(certificate.startDate) || '未填写' }}</p>
-            <a-row>
-              <a-col :span="2">
-            <a-button type="primary" shape="circle" @click="certificateEdit(index) ">编辑</a-button>
-              </a-col>
-              <a-col :span="2">
-                <a-button type="primary" shape="circle"  @click="deleteCertificate(index)" :offset="4">删除</a-button>
-              </a-col>
-            </a-row>
-          </a-card>
+          <div v-for="(certificate, index) in certificates" :key="index">
+            <a-card style="width: 600px">
+              <p>{{ certificate.certificateName || '未填写' }} | {{ formatDate(certificate.startDate) || '未填写' }}</p>
+
+            </a-card>
+          </div>
         </div>
-      </div>
-        <div class="form-container" v-if="!certificateControl.condition">
-          <a-form :model="certificateControl" :label-col="labelCol" :wrapper-col="wrapperCol"  @submit.prevent="saveCertificateInfo">
-            <a-row>
-              <a-col :span="12">
-                <a-form-item label="奖项名称">
-                  <a-input v-model:value="certificates[certificateControl.index].certificateName" size="large" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="获奖时间">
-                  <a-date-picker v-model:value="certificates[certificateControl.index].startDate"  size="large"/>
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-              <a-button type="primary" @click="saveCertificateInfo(certificateControl.index)">保存</a-button>
-            </a-form-item>
-          </a-form>
-        </div>
+
       </div>
     </div>
   </div>
-    <!-- 横线 -->
-    <div class="divider"></div>
-    <!-- 第六块 -->
-    <div class="block">
-      <h2 id="skillInfo">个人技能</h2>
-      <p>Option 1 Content</p>
-    </div>
-    <!-- 横线 -->
-    <div class="divider"></div> <!-- 第一块 -->
+  <!-- 横线 -->
+
+  <!-- 横线 -->
+  <div class="divider"></div> <!-- 第一块 -->
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
         <div class="contentHeader">
-          <h2 id="LocalResume">上传本地简历</h2>
+          <h2 id="LocalResume">简历附件</h2>
 
         </div>
       </div>
@@ -382,12 +138,8 @@
           :headers="headers"
           @change="handleChange"
       >
-        <a-button>
-          <upload-outlined></upload-outlined>
-          Click to Upload
-        </a-button>
       </a-upload>
-        </div>
+    </div>
   </div>
 </template>
 
@@ -462,32 +214,32 @@ const eduInfo = ref([{
   id:''
 }]);
 const practiceInfo = ref([
-    {
-  enterpriseName: '',
-  jobName: '',
-  startDate:ref<Dayjs>(),
-  endDate:ref<Dayjs>(),
-  id:'',
-  jobContent: ''
-}]);
+  {
+    enterpriseName: '',
+    jobName: '',
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    id:'',
+    jobContent: ''
+  }]);
 const organizationInfo = ref([
-    {
-  organizationName: '',
-  jobName: '',
-  startDate:ref<Dayjs>(),
-  endDate:ref<Dayjs>(),
-  id:'',
-  jobContent: ''
-}]);
+  {
+    organizationName: '',
+    jobName: '',
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    id:'',
+    jobContent: ''
+  }]);
 const projectInfo = ref([
-    {
-  projectName: '',
-  jobName: '',
-  startDate:ref<Dayjs>(),
-  endDate:ref<Dayjs>(),
-  jobContent: '',
-  id:'',
-    }
+  {
+    projectName: '',
+    jobName: '',
+    startDate:ref<Dayjs>(),
+    endDate:ref<Dayjs>(),
+    jobContent: '',
+    id:'',
+  }
 ]);
 const monthFormat = 'YYYY/MM/DD';
 const certificates = ref([
@@ -679,8 +431,8 @@ const deleteOrganization = (index: number) => {
 const deleteCertificate = (index: number) => {
   certificates.value.splice(index, 1);
   instance.post('/deleteCertification', {
-    certificationIndex:index
-    }
+        certificationIndex:index
+      }
   )
       .then(response => {
         console.log(response.data);
@@ -693,15 +445,15 @@ const deleteCertificate = (index: number) => {
   setTimeout(selectCertificateInfo, 1000); // 2000 毫秒 = 2 秒
 };
 const deleteProject = (index: number) => {
- projectInfo.value.splice(index, 1);
- instance.post('/deleteProject', {projectIndex:index})
+  projectInfo.value.splice(index, 1);
+  instance.post('/deleteProject', {projectIndex:index})
       .then(response => {
         console.log(response.data);
         message.success('成功删除');
       })
-     .catch(error => {
-       console.error(error);
-       message.error("删除失败");
+      .catch(error => {
+        console.error(error);
+        message.error("删除失败");
       });
   setTimeout(selectProjectInfo, 1000); // 2000 毫秒 = 2 秒
 };
@@ -795,12 +547,12 @@ const saveProjectInfo = (index:number) => {
   projectControl.value.condition = !projectControl.value.condition;
   projectControl.value.index= index;
   instance.post('/saveProject', {
-    name:projectInfo.value[index].projectName,
-    projectIndex:projectInfo.value[index].id,
-    startDate:projectInfo.value[index].startDate,
-    overDate:projectInfo.value[index].endDate,
-    role:projectInfo.value[index].jobName,
-    performance:projectInfo.value[index].jobContent
+        name:projectInfo.value[index].projectName,
+        projectIndex:projectInfo.value[index].id,
+        startDate:projectInfo.value[index].startDate,
+        overDate:projectInfo.value[index].endDate,
+        role:projectInfo.value[index].jobName,
+        performance:projectInfo.value[index].jobContent
       }
   )
       .then(response => {
@@ -822,9 +574,9 @@ const saveCertificateInfo = (index:number) => {
   certificateControl.value.index= index;
   instance.post('/certification', {
     name:certificates.value[index].certificateName,
-        certificationIndex:certificates.value[index].id,
+    certificationIndex:certificates.value[index].id,
     startTime:certificates.value[index].startDate}
-    )
+  )
       .then(response => {
         message.success('成功保存');
       })

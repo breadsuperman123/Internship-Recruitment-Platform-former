@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import StudentLoginView from "../router/login/StudentLoginView.vue";
 import EnterpriseLoginView from "../router/login/EnterpriseLoginView.vue";
+import EnpterpriseView from './enterprise/HumanResourceHome.vue';
 import ManagerLogin from "../router/manager/ManagerLogin.vue";
 import StudentView from "../router/student/StudentView.vue";
+import StudentResume from "../router/student/StudentResume.vue";
 import ManagerHome from "@/router/manager/ManagerHome.vue";
 import HrFirmRegisterHome from "@/router/hrenterpriseregist/HrFirmRegisterHome.vue";
 import EnterpriseRegister from "@/router/hrenterpriseregist/EnterpriseRegister.vue";
@@ -17,9 +19,11 @@ import StudentHomePage from "@/router/student/homepage/StudentHomePage.vue";
 import StudentSearchPage from "@/router/student/homepage/StudentSearchPage.vue";
 import StudentMainSearch from "@/router/student/homepage/StudentMainSearch.vue";
 import SpecificPostInfo from "@/router/student/homepage/SpecificPostInfo.vue";
-import StudentResume from "@/router/student/StudentResume.vue";
 import StudentPost from "@/router/student/StudentPost.vue";
 import StudentSelectEnterprisePost from "@/router/student/homepage/StudentSelectEnterprisePost.vue";
+import ResumeContent from "@/components/student/ResumeContent.vue";
+import PostRecord from "@/components/student/PostRecord.vue";
+import ResumeForHr from "@/components/student/ResumeForHr.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -39,11 +43,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/studentHome', // 学生主页
     name: 'studentHome',
     component:StudentView
-  },
-  {
-    path: '/enterpriseHome',
-    name: 'enterpriseHome',  //企业主页
-    component:EnterpriseHome
   },
   {
     path:'/managerLogin',
@@ -75,35 +74,29 @@ const routes: Array<RouteRecordRaw> = [
     component:StudentRegisterView
   },
   {
-    path:'/humanResourceHome',
-    name:'humanResourceHome',   // hr登入后的主页面
-    component:HumanResourceHome
+    path:'/StudentResume',
+    name:'StudentResume',   // 学生简历界面
+    component:StudentResume
   },
   {
-    path:'/chatHome',
-    name:'chatHome',   // 聊天
-    component:ChatHome
+    path:'/ResumeContent',
+    name:'ResumeContent',   // 学生简历界面
+    component:ResumeContent
   },
   {
-    path:'/chatLoginHome',
-    name:'chatLoginHome',   // 聊天
-    component:ChatLoginHome
+    path:'/StudentPost',
+    name:'StudentPost',   // 学生投递进度查看界面
+    component:StudentPost
   },
   {
-    path:'/postSubmitSituationView',
-    name:'postSubmitSituationView',   // 聊天
-    component:PostSubmitSituationView
+    path:'/PostRecord',
+    name:'PostRecord',   // 学生投递进度查看界面
+    component:PostRecord
   },
   {
-    path:'/studentHomePage',
-    name:'studentHomePage',   // 学生首页
-    component:StudentHomePage
-  },
-  {
-    path: '/studentSearchPage/:bigType/:smallType',
-    name: 'studentSearchPage',
-    component: StudentSearchPage,
-    props: true // 启用 props 接收路由参数
+    path: '/ResumeForHr',
+    name: 'ResumeForHr',   //hr查看学生简历界面
+    component: ResumeForHr
   },
   {
     path: '/studentMainSearch/:searchValue/:searchData',

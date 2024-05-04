@@ -13,7 +13,7 @@ const formState = reactive<Record<string, any>>({
   'checkbox-group': ['A', 'B'],
   rate: 3.5,
 });
-const selectedKeys = ref<string[]>(['2']);
+const selectedKeys = ref<string[]>(['3']);
 const selectedComponent = ref<string>('defaultPost');
 function goToHomePage() {
   // 使用 router.push() 方法跳转到学生首页

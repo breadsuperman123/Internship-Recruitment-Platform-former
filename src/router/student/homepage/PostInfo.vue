@@ -1,6 +1,6 @@
 <template>
-  <div class="post-info" @click="navigateToPost">
-    <div>
+  <div class="post-info" @click="navigateToPost" >
+    <div class="info">
     <h3>{{ post.name }}</h3>
     <p>薪资{{ post.pay }}/天</p>
     <p>{{ post.workCity}}</p>
@@ -47,16 +47,34 @@ const navigateToPost = async () => {
 <style scoped>
 .post-info {
   cursor: pointer;
-  background-color: #f0f0f0;
+  background: linear-gradient(135deg, #87CEFA, #B0E0E6);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  height: 180px;
   padding: 10px;
-  border-radius: 5px;
   margin-bottom: 10px;
   display: flex;
 }
+
+.post-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
 .img{
   margin-top: 20px;
-  margin-left: 100px;
+  margin-right: 30px;
   max-width: 100px;
   max-height: 80px;
+
 }
+.info {
+  flex: 1;
+  padding: 20px;
+  color: black;
+}
+
 </style>
