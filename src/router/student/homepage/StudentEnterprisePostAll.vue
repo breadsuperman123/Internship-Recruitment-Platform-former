@@ -16,6 +16,7 @@
 import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import PostInfo from '@/router/student/homepage/PostInfo.vue';
+import StudentFilter from "@/router/student/homepage/StudentFilter.vue";
 
 const route = useRoute();
 const jobPosts = ref([]);

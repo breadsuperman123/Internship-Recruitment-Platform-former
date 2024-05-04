@@ -103,7 +103,7 @@ import PopularPost from "@/router/student/homepage/PopularPost.vue";
 import NewPost from "@/router/student/homepage/NewPost.vue";
 import axios from "axios";
 
-const selectedKeys = ref<string[]>(['2']);
+const selectedKeys = ref<string[]>(['3']);
 const formState = reactive<Record<string, any>>({
   'input-number': 3,
   'checkbox-group': ['A', 'B'],

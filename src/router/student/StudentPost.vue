@@ -3,12 +3,12 @@
     <a-layout-header class="header">
       <div class="logo" />
       <a-menu
-          v-model:selectedKeys="selectedKeys1"
+          v-model:selectedKeys="selectedKeys"
           theme="dark"
           mode="horizontal"
           :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">首页</a-menu-item>
+        <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
         <a-menu-item key="2">职位百科</a-menu-item>
         <a-dropdown>
           <template v-slot:overlay>
@@ -17,7 +17,8 @@
             </a-menu>
           </template>
           <a-menu-item key="3">我的</a-menu-item>
-        </a-dropdown>      </a-menu>
+        </a-dropdown>
+      </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
@@ -60,12 +61,17 @@ import ResumeContent from '../../components/student/ResumeContent.vue'; // 引�
 import { ref } from 'vue';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
 import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
+import router from "@/router";
 const sidebarTitle = ref('我的投递');
 const selectedKeys1 = ref<string[]>(['2']);
 const selectedKeys2 = ref<string[]>(['1']);
 const openKeys = ref<string[]>(['sub1']);
+const selectedKeys = ref<string[]>(['3']);
 
-
+function goToHomePage() {
+  // 使用 router.push() 方法跳转到学生首页
+  router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
+}
 
 
 </script>

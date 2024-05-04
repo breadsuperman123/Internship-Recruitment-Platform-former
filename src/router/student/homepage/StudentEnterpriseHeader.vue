@@ -21,10 +21,13 @@
       </a-row>
     </a-page-header>
   </div>
+  <student-filter :enterpriseInfo="enterpriseInfo"></student-filter>
+
 </template>
 <script lang="ts" setup>
 import {ref, onMounted, watch, reactive} from 'vue';
 import { defineProps } from 'vue';
+import StudentFilter from "@/router/student/homepage/StudentFilter.vue";
 
 
 const props = defineProps({

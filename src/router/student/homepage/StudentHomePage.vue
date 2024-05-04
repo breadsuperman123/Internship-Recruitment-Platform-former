@@ -48,7 +48,7 @@ import RecommandPostArchor from "@/router/student/homepage/RecommandPostArchor.v
 import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
 import router from "@/router";
 import StudentIntendPost from "@/router/student/homepage/StudentIntendPost.vue";
-const selectedKeys1 = ref<string[]>(['2']);
+const selectedKeys1 = ref<string[]>(['1']);
 ref<string[]>(['1']);
 function goToHomePage() {
   // 使用 router.push() 方法跳转到学生首页

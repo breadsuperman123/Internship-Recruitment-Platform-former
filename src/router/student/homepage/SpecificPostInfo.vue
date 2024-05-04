@@ -42,7 +42,7 @@ import PostPoint from "@/router/student/homepage/PostPoint.vue";
 import {useRoute} from "vue-router";
 import StudentPrimPage from "@/router/student/homepage/StudentPrimPage.vue";
 import router from "@/router";
-const selectedKeys = ref<string[]>(['2']);
+const selectedKeys = ref<string[]>(['3']);
 function goToHomePage() {
   // 使用 router.push() 方法跳转到学生首页
   router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
