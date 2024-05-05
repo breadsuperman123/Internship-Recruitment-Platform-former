@@ -57,7 +57,7 @@
             </a-menu-item>
             <a-menu-item key="6">
               <laptop-outlined />
-              <a href="#skillInfo"> 个人技能</a>
+              <a href="#LocalResume"> 简历附件</a>
             </a-menu-item>
           </a-menu>
         </a-layout-sider>

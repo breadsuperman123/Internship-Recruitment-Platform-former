@@ -18,7 +18,8 @@ const postInfo = ref([
     postName: '',
     approvalTime:ref<Dayjs>(),
     workCity:'',
-    status:''
+    status:'',
+    stageName:''
   }
 ]);
 // 令牌处理
@@ -139,6 +140,38 @@ const handleClick: AnchorProps['onClick'] =  (e: { preventDefault: () => void; }
           console.error(error);
         });
   }
+  else if (condition==3){
+    instance.post('/postRecordSelectFail', {resumeApprovalStage: {status: link.href}})
+        .then(response => {
+          console.log(response.data);
+          response.data.data.forEach((item: {
+            postName: any;
+            approvalTime: string | Dayjs | Date | null | undefined;
+            enterpriseName: string;
+            workCity: string;
+            status: string;
+            stageName: string;
+          }, index: number) => {
+            const {postName, approvalTime, enterpriseName, workCity, status,stageName} = item;
+
+            postInfo.value[index] = {
+              postName: postName,
+              approvalTime: ref<Dayjs>(dayjs(approvalTime, 'YYYY-MM-DD')),
+              enterpriseName: enterpriseName,
+              workCity: workCity,
+              status: status,
+              stageName:stageName
+            };
+            clickCondition.value.approvalStage = link.href;
+            clickCondition.value.clickCondition = true;
+          });
+
+          console.log(response.data.data)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
 }  ;
 const formatDate = (date: string | number | Date | ref<Dayjs>) => {
   if (!date) return ''; // 如果日期不存在，返回空字符串
@@ -189,6 +222,18 @@ const formatDate = (date: string | number | Date | ref<Dayjs>) => {
           <span>{{ clickCondition.approvalStage +"|"+organization.status}}</span>
         </div>
       </a-card>
+      </div>
+      <div v-if="clickCondition.approvalStage==='不合适'">
+        <a-card class="custom-card">
+          <div class="top-row">
+            <span class="post-name">{{ organization.postName }}</span>
+            <span class="approval-time">{{ "审核时间："+formatDate(organization.approvalTime) }}</span>
+          </div>
+          <div class="company-info">
+            <span>{{ organization.enterpriseName+"—"+organization.workCity  }}</span>
+            <span>{{organization.stageName +"|"+clickCondition.approvalStage}}</span>
+          </div>
+        </a-card>
       </div>
     </div>
   </div>

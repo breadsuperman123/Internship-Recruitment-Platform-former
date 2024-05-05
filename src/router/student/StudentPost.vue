@@ -39,10 +39,10 @@
               <user-outlined />
               <a href="">投递记录</a>
             </a-menu-item>
-<!--            <a-menu-item key="2">-->
-<!--              <user-outlined />-->
-<!--              <a href=""> 岗位收藏 </a>-->
-<!--            </a-menu-item>-->
+            <a-menu-item key="2">
+              <user-outlined />
+              <a href=""> 岗位收藏 </a>
+            </a-menu-item>
           </a-menu>
         </a-layout-sider>
         <a-layout-content :style="{ marginLeft: '200px' }">
@@ -52,9 +52,7 @@
         </a-layout-content>
       </a-layout>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
-      Ant Design ©2018 Created by Ant UED
-    </a-layout-footer>
+
   </a-layout>
 </template>
 

@@ -360,13 +360,7 @@
   </div>
     <!-- 横线 -->
     <div class="divider"></div>
-    <!-- 第六块 -->
-    <div class="block">
-      <h2 id="skillInfo">个人技能</h2>
-      <p>Option 1 Content</p>
-    </div>
-    <!-- 横线 -->
-    <div class="divider"></div> <!-- 第一块 -->
+
   <div class="block">
     <div ref="contentContainer" class="layout-container">
       <div class="block">
