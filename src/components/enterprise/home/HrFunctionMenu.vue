@@ -75,8 +75,8 @@ const items = ref([
     children: [
       {
         key: '4.1',
-        label: 'functionOne',
-        title: 'functionOne',
+        label: '部门信息',
+        title: 'department',
       },
     ],
   },

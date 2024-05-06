@@ -39,7 +39,9 @@
           </a-menu>
         </a-layout-sider>
         <a-layout-content :style="{ marginLeft: '200px' }">
-          <div style="height: 800px;"></div>
+          <div style="height: 800px;">
+            <post-record></post-record>
+          </div>
         </a-layout-content>
       </a-layout>
     </a-layout-content>
@@ -53,6 +55,7 @@
 import ResumeContent from '../../components/student/ResumeContent.vue'; // 引入新创建的组件
 import { ref } from 'vue';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
+import PostRecord from "@/components/student/PostRecord.vue";
 const sidebarTitle = ref('我的投递');
 const selectedKeys1 = ref<string[]>(['2']);
 const selectedKeys2 = ref<string[]>(['1']);

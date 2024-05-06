@@ -21,16 +21,7 @@ const props = defineProps({
   enterpriseId: Number
 });
 
-const instance = axios.create({
-  baseURL: 'http://localhost:8081'
-});
-
-instance.interceptors.request.use(function (config) {
-  config.headers.Authorization = `${jwtToken}`;
-  return config;
-}, function (error) {
-  return Promise.reject(error);
-});
+import instance from "@/axios-instance";
 
 const showModal = () => {
   open.value = true;

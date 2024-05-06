@@ -1,6 +1,6 @@
 <template>
   <div id="components-modal-demo-position">
-    <a-button type="primary" @click="showDetailDialog">
+    <a-button type="primary" @click="handleButtonClick">
       编辑
     </a-button>
     <a-modal
@@ -10,63 +10,35 @@
         centered
         @ok="closeDetailDialog"
     >
-      <post-detail-form ></post-detail-form>
+      <post-detail-form :clickNumbers="clickNums" :id="props.id" :postTypeName="props.postTypeName"></post-detail-form>
     </a-modal>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, defineProps } from 'vue';
-import axios from "axios";
 import PostDetailForm from "@/components/enterprise/function/post/PostDetailForm.vue";
-// 设置axios请求头的通用配置
 
-const props = defineProps({
-  id: Number
-});
+const clickNums = ref(1)
 
 const modalVisible = ref<boolean>(false);
-const jwtToken = localStorage.getItem("jwtToken");
-axios.defaults.headers.common['token'] = jwtToken;
 
-// 创建axios实例
-const instance = axios.create({
-  baseURL: 'http://localhost:8081'
+const props = defineProps({
+  id: Number,
+  postTypeName:String
 });
 
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  config.headers.Authorization = `${jwtToken}`;
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
 
-const enterpriseData = ref({
-  id: '',
-  name: '',
-  address: '',
-  description: '',
-  logoUrl: '',
-  creditCode: '',
-});
-
-const showDetailDialog = async () => {
+const handleButtonClick = () => {
   modalVisible.value = true;
-  console.log("jwt:", jwtToken);
-  try {
-    const response = await instance.post("/enterpriseDetail", {
-      id: props.id
-    });
-    enterpriseData.value = response.data.data;
-  } catch (error) {
-    console.error("Error fetching enterprise detail:", error);
-  }
+  clickNums.value = clickNums.value + 1;
 };
+
+
 
 const closeDetailDialog = () => {
   modalVisible.value = false;
 };
+
+
 </script>

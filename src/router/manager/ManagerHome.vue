@@ -57,7 +57,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import type { TableColumnsType } from 'ant-design-vue';
-import axios from 'axios';
 import { onMounted } from 'vue';
 
 const currentTab = ref('pending');
@@ -155,21 +154,7 @@ onMounted(() => {
   fetchData();
 });
 
-// 创建axios实例
-const instance = axios.create({
-  baseURL: 'http://localhost:8081',
-  withCredentials: false,
-});
-
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  config.headers.Authorization = `${jwtToken}`;
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
+import instance from "@/axios-instance";
 
 const fetchData = async () => {
   try {

@@ -95,8 +95,6 @@ const loginType = computed(() => {
   return route.path.includes('enterpriseLogin') ? 'enterprise' : 'student';
 });
 
-const hello = ref("")
-
 const onFinish = async () => {
   const loginUrl = loginType.value === 'student' ? 'studentLogin' : 'enterpriseLogin';
   try {

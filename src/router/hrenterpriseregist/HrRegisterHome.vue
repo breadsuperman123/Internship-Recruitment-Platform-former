@@ -15,6 +15,7 @@ const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const file = ref(null);
 const headUrl = ref('');
+const department = ref("")
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
@@ -44,7 +45,7 @@ const checkUsernameAvailability = async () => {
 
 const submitRegistration = async () => {
   // Check if all fields are filled
-  if (!name.value || !creditCode.value || !username.value || !password.value || !confirmPassword.value || !phone.value || !email.value) {
+  if (!name.value || !creditCode.value || !username.value || !password.value || !confirmPassword.value || !phone.value || !email.value || !department.value) {
     message.error('所有字段都需要填写。');
     return;
   }
@@ -81,6 +82,7 @@ const submitRegistration = async () => {
         name: name.value,
         creditCode: creditCode.value
       },
+      department:department.value,
       phone: phone.value,
       email: email.value
     });
@@ -108,6 +110,7 @@ const submitRegistration = async () => {
       <h2>HR注册</h2>
       <input v-model="name" type="text" placeholder="公司名称" />
       <input v-model="creditCode" type="text" placeholder="信用代码" />
+      <input v-model="department" type="text" placeholder="部门名称" />
       <input
           v-model="username"
           type="text"

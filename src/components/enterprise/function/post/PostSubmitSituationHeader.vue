@@ -1,62 +1,128 @@
 <template>
-  <div class="components-page-header-demo-content">
+  <div class="post-details-container">
     <a-page-header
-        title="Enterprise Name"
+        :title="formData.enterpriseName"
         class="site-page-header"
-        sub-title="enterprise description"
-        :avatar="{ src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }"
+        :sub-title="formData.department"
+        :avatar="{ src: formData.departmentHeadUrl }"
     >
       <template #extra>
-        <a-button key="1" type="primary">Primary</a-button>
+        <a-button key="1" type="primary">Apply Now</a-button>
       </template>
-      <a-row class="content">
-        <div style="flex: 1">
-          <p>
-             岗位基本信息
-          </p>
-          <p>
-            岗位基本信息
-          </p>
+      <div class="post-details-content">
+        <div class="info">
+          <p class="info-title">Position Details</p>
+          <div class="info-item">
+            <strong>Position Name:</strong> {{ formData.name }}
+          </div>
+          <div class="info-item">
+            <strong>Position Type:</strong> {{ formData.postSmallType }}
+          </div>
+          <div class="info-item">
+            <strong>Salary:</strong> {{ formData.pay }}￥/day
+          </div>
+          <div class="info-item">
+            <strong>Minimum Internship:</strong> {{ formData.minInternship }} months
+          </div>
+          <div class="info-item">
+            <strong>Location:</strong> {{ formData.workPlace }}
+          </div>
+          <div class="info-item">
+            <strong>Application Deadline:</strong> {{ formData.deliveryDeadline }}
+          </div>
+          <div class="info-item">
+            <strong>City:</strong> {{ formData.workCity }}
+          </div>
+          <div class="info-item">
+            <strong>Status:</strong> {{ formData.status }}
+          </div>
+          <div class="info-item">
+            <strong>Description:</strong> {{ formData.description }}
+          </div>
+          <div class="info-item">
+            <strong>Requirements:</strong> {{ formData.demand }}
+          </div>
         </div>
         <div class="image">
-          <img
-              src="https://gw.alipayobjects.com/zos/antfincdn/K%24NnlsB%26hz/pageHeader.svg"
-              alt="content"
-              style="width: 100%"
-          />
+          <img :src="formData.enterpriseHeadLogoUrl" alt="Enterprise Logo" />
         </div>
-      </a-row>
+      </div>
     </a-page-header>
   </div>
 </template>
-<script lang="ts" setup>
 
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import instance from "@/axios-instance";
+import { message } from "ant-design-vue";
+import { useRoute } from 'vue-router';
+
+const formData = ref({
+  id:"",
+  name:"",
+  postSmallType:"",
+  pay:"",
+  minInternship:"",
+  workPlace:"",
+  deliveryDeadline:"",
+  workCity:"",
+  status:"",
+  description:"",
+  demand:"",
+  enterpriseName:"",
+  department:"",
+  departmentHeadUrl:"",
+  enterpriseHeadLogoUrl:""
+});
+
+const route = useRoute();
+
+onMounted(async () => {
+  try {
+    const postId = route.params.postId;
+    const response = await instance.post("/getPostDetailInformation", {
+      id: postId
+    });
+    if(response.data.code == 0){
+      message.error("Failed to fetch post details!");
+      return;
+    }
+    formData.value = response.data.data[0];
+    message.success("Post details fetched successfully!");
+  } catch (e) {
+    message.error("Error fetching post details!");
+  }
+});
 </script>
 
-
-
-
 <style scoped>
-#components-page-header-demo-content .image {
-  margin: 0 0 0 60px;
+.post-details-container {
+  padding: 20px;
+}
+
+.post-details-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-#components-page-header-demo-content .ant-page-header-rtl .image {
-  margin: 0 60px 0 0;
+.info {
+  flex: 1;
 }
 
-#components-page-header-demo-content .content p {
-  margin-bottom: 1em;
-  color: rgba(0, 0, 0, 0.85);
-  overflow-wrap: break-word;
+.info-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-  #components-page-header-demo-content .image {
-    flex: 100%;
-    margin: 24px 0 0;
-  }
+.info-item {
+  margin-bottom: 5px;
+}
+
+.image img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
 }
 </style>

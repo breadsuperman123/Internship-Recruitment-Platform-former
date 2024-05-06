@@ -5,7 +5,7 @@ import {AnchorProps} from
       "ant-design-vue";
 import axios from "axios";
 import {Dayjs} from "dayjs";
-import {ref} from "vue/dist/vue";
+import {ref} from "vue";
 import {dayjs} from "element-plus";
 const postInfo = ref([
   {

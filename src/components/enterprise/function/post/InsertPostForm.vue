@@ -38,8 +38,8 @@
     </a-form-item>
     <a-form-item label="岗位状态">
       <a-select v-model:value="status">
-        <a-select-option value="read">招聘中</a-select-option>
-        <a-select-option value="initial_screening">停止招聘</a-select-option>
+        <a-select-option value="招聘中">招聘中</a-select-option>
+        <a-select-option value="停止招聘">停止招聘</a-select-option>
       </a-select>
     </a-form-item>
     <a-form-item label="岗位介绍">
@@ -57,7 +57,6 @@
 <script lang="ts" setup>
 import {ref, onMounted, defineProps, watch} from 'vue';
 
-import axios from 'axios';
 import { message } from 'ant-design-vue'; // Import message from ant-design-vue
 
 
@@ -94,39 +93,26 @@ const demand = ref('');
 
 const jobCategories = ref([]);
 
-const token = localStorage.getItem('jwtToken');
 const componentDisabled = ref(false);
 const labelCol = {style: {width: '150px'}};
 const wrapperCol = {span: 20};
 
 
-// 创建axios实例
-const instance = axios.create({
-  baseURL: 'http://localhost:8081',
-  withCredentials: false,
-});
-
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  config.headers.Authorization = `${token}`;
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
+import instance from "@/axios-instance";
 
 
 const getPostSmallType = async () => {
   try {
     // 获取所有岗位类别
-    const response = await instance.post("/getPostSmallType");
+    const response = await instance.get("/getPostSmallType");
     console.log(response.data.data)
     jobCategories.value = response.data.data; // 将岗位类别显示在下拉选择框
   } catch (e) {
     alert("岗位获取失败，出现异常！");
   }
 };
+
+
 
 onMounted(() => {
   getPostSmallType();
@@ -162,10 +148,10 @@ const addPost = async () => {
       demand: demand.value
     });
     // 获取所有岗位类别
-    const response1 = await instance.post("/getPostSmallType")
+    const response1 = await instance.get("/getPostSmallType")
     jobCategories.value = response1.data.data;// 将岗位类别显示在下拉选择框
     // 发布提交请求
-    const response = await instance.post("addPost", {
+    const response = await instance.post("/addPost", {
       name: name.value,
       postSmallType: {
         name:postSmallTypeName.value

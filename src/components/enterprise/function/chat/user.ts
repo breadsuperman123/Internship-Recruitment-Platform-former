@@ -49,12 +49,13 @@ export const useUser = defineStore("user", {
                     } else if (data.type === 'messages') {
                         const findIndex = this.friendsListInfo.findIndex((object: any) => object.nickname === data.sendNickname);
                         if (findIndex !== -1) {
-                            if (this.friendsListInfo[findIndex].nickname === this.friendsInfo.nickname){
-                                this.friendsInfo.latestNews = data.messages
+                            if (this.friendsListInfo[findIndex].nickname === this.friendsInfo.nickname){// 已经是当前聊天好友
+                                this.friendsInfo.latestNews = data.messages //
                                 this.friendsInfo.messages.push({
                                     type: 'friend', // 消息类型
                                     message: data.messages// 消息内容
-                                })
+                                })  // 添加和当前好友的消息
+
                             }else {
                                 this.friendsListInfo[findIndex].latestNews = data.messages
                                 this.friendsListInfo[findIndex].messages.push({

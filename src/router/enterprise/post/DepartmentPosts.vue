@@ -1,26 +1,49 @@
 <template>
   <div class="container">
     <div class="search-form">
-      <form class="form-inline" @submit.prevent="searchPost">
-        <div class="form-group">
-          <insert-post-dialog></insert-post-dialog>
-        </div>
-        <div class="form-group">
-          <input class="form-control" placeholder="岗位名称" type="text" v-model="name"/>
-        </div>
-        <div class="form-group">投递截止时间：</div>
-        <div class="form-group">
-          <input class="form-control" type="date" v-model="delivery_deadline" placeholder="投递截止时间"/>
-        </div>
-        <div class="form-group">简历状态：</div>
-        <div class="form-group">
-          <select class="form-control" v-model="status">
-            <option value="recruiting">招聘中</option>
-            <option value="stopped" style="color: red">停止招聘</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary">搜索</button>
-      </form>
+
+      <a-form @submit.prevent="searchPost">
+        <a-form-item
+            name="select-multiple"
+            label="岗位类别"
+            :rules="[{ required: false, message: '岗位类别!', type: 'array' }]"
+        >
+          <a-select
+              v-model:value="selectedPostsType['select-multiple']"
+              mode="multiple"
+              placeholder="岗位类别"
+          >
+            <a-select-option v-for="category in jobCategories" :key="category" :value="category.value">
+              {{ category }}
+            </a-select-option>
+
+          </a-select>
+        </a-form-item>
+        <a-form-item
+            name="select-multiple"
+            label="工作城市"
+            :rules="[{ required: false, message: '工作城市!', type: 'array' }]"
+        >
+          <a-select
+              v-model:value="selectedWorkCities['select-multiple']"
+              mode="multiple"
+              placeholder="工作城市"
+          >
+            <a-select-option v-for="city in workCities" :key="city" :value="city.value">
+              {{ city }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item class="form-group" name="status" label="简历状态">
+          <a-select class="form-control" v-model:value="status">
+            <a-select-option value="招聘中">招聘中</a-select-option>
+            <a-select-option value="停止招聘" style="color: red">停止招聘</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item style="text-align: center;">
+          <a-button @click="searchPost" type="primary">筛选</a-button>
+        </a-form-item>
+      </a-form>
     </div>
     <div v-for="post in posts" :key="post.id" class="post-item">
       <div class="post-info">
@@ -34,8 +57,6 @@
         <p>岗位状态：{{ post.status }}</p>
       </div>
       <div class="post-actions">
-        <post-detail-dialog @click="editPost(post.id)"></post-detail-dialog>
-        <!--        <button class="btn btn-info" @click="editPost(post.id)">编辑</button>-->
         <button class="btn btn-secondary" @click="viewDelivery(post.id)">投递情况</button>
       </div>
     </div>
@@ -43,65 +64,61 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
-import axios from 'axios'
-import router from '@/router';
 import {onMounted} from 'vue';
-import PostDetailDialog from "@/components/enterprise/function/post/PostDetailDialog.vue";
-import InsertPostDialog from "@/components/enterprise/function/post/InsertPostDialog.vue";
 
 
-const name = ref('')
-const delivery_deadline = ref('')
 const status = ref('')
 const posts = ref([]) // 空数组
 
 // 获取本地存储的jwtToken并将其添加到请求头中
 const jwtToken = localStorage.getItem('jwtToken');
+import instance from "@/axios-instance";
 
-// 创建axios实例
-const instance = axios.create({
-  baseURL: 'http://localhost:8081',
-  withCredentials: false,
-});
-
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  config.headers.Authorization = `${jwtToken}`;
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
-
-
-// 生成一百个岗位
-for (let i = 1; i <= 100; i++) {
-  posts.value.push({
-    id: i.toString(),
-    smallPostName: `Small Post ${i}`,
-    name: `岗位 ${i}`,
-    work_city: `城市 ${i}`,
-    min_internship: `${i} 个月`,
-    delivery_deadline: `2024-04-${i}`,
-    status: i % 2 === 0 ? 'stopped' : 'recruiting' // 招聘中或停止招聘交替
-  })
-}
-
-// 页面加载完毕发送请求
 // 在页面加载完毕后发送请求
 onMounted(() => {
   // 调用发送 GET 请求的方法，
   getPost()
+  getPostSmallType()
+  getWorkCities()
 });
 
-import {defineProps, watch} from 'vue';
+import {defineProps, watch, reactive,ref} from 'vue';
+const jobCategories = ref([]);
+const workCities = ref([])
+const getPostSmallType = async () => {
+  try {
+    // 获取所有岗位类别
+    const response = await instance.get("/getPostSmallType");
+    console.log(response.data.data)
+    jobCategories.value = response.data.data; // 将岗位类别显示在下拉选择框
+  } catch (e) {
+    alert("岗位获取失败，出现异常！");
+  }
+};
 
+const getWorkCities = async () => {
+  try {
+    // 获取所有岗位类别
+    const response = await instance.get("/getPostWorkCities");
+    console.log(response.data.data)
+    workCities.value = response.data.data; // 将岗位类别显示在下拉选择框
+  } catch (e) {
+    alert("岗位获取失败，出现异常！");
+  }
+};
 // 定义接收的事件
 const props = defineProps({
   clickNumbers: Number,
   clickMenuOnes:Number
+});
+
+
+const selectedPostsType = reactive<Record<string, any>>({
+
+});
+
+const selectedWorkCities = reactive<Record<string, any>>({
+
 });
 
 // 使用watch监听props.clickNumbers的变化
@@ -139,25 +156,43 @@ const getPost = async () => {
     }
   }
 };
+import {message}  from "ant-design-vue";
 
 const searchPost = async () => {
-  const response = await instance.post('/searchPostConditionally', {
-      name: name.value,
-      deadline: delivery_deadline.value,
+  try {
+    const response = await instance.post('/selectDepartmentPostsMultiple', {
+      postTypes: selectedPostsType['select-multiple'],
+      workCities: selectedWorkCities['select-multiple'],
       status: status.value
-  });
-  posts.value = response.data
+    });
+    console.log("response.data.data:",response.data.data)
+    if(response.data.code==0){
+      message.warn("Not fund posts!")
+      return;
+    }
+    if(response.data.code==1){
+      posts.value = response.data.data
+      message.success("search post success!")
+    }
+  } catch (e) {
+    message.error("Search posts error!")
+  }
 }
 
-const editPost = (postId: any) => {
-  // handle edit post
+const viewDelivery = (postId) => {
+  console.log("current post id: ",postId)
+  // 构建带有 postId 路由参数的 URL
+  const url = `/postSubmitSituationView/${postId}`;
+  // 在新标签页中打开 URL
+  // router.push(url)
+  window.open(url);
 }
 
-const viewDelivery = (postId: any) => {
-  window.open("/postSubmitSituationView", "_blank");
-}
+
 </script>
 
+
+<!--css-->
 <style scoped>
 .container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -165,12 +200,6 @@ const viewDelivery = (postId: any) => {
   margin: auto;
   padding: 20px;
   background-color: #f8f9fa;
-}
-
-.form-inline {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
 }
 
 .form-group {
@@ -199,17 +228,6 @@ const viewDelivery = (postId: any) => {
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-info {
-  color: #fff;
-  background-color: #307fda;
-  border-color: #1864bb;
-}
 
 .btn-secondary {
   color: #fff;

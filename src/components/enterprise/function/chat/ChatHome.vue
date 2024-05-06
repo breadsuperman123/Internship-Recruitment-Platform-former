@@ -212,6 +212,30 @@ const sendMessages = async () => {
     }
   }
 }
+
+
+import {defineProps, watch} from 'vue';
+
+// 定义接收的事件
+const props = defineProps({
+  clickNumbers: Number,
+  isClickTalentExplore:Boolean
+});
+
+// 使用watch监听props.clickNumbers的变化
+watch(() => props.clickNumbers, (newVal: any, oldVal: any) => {
+  // 当clickNumbers改变时，调用getPostSmallType
+  if (newVal == "3") {
+    // 人才探索
+  }
+});
+watch(() => props.isClickTalentExplore, (newVal: any, oldVal: any) => {
+  // 当clickNumbers改变时
+  if (newVal != oldVal) {
+    // 人才探索
+  }
+});
+
 </script>
 
 <style lang="scss" scoped>
