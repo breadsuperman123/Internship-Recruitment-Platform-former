@@ -3,7 +3,21 @@ import { ref, onMounted, watch } from 'vue';
 import PostInfo from "@/router/student/homepage/PostInfo.vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
+const jwtToken = localStorage.getItem("jwtToken");
+const instance = axios.create({
+  baseURL: 'http://localhost:8081',
+  withCredentials: false,
+});
 
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  config.headers.Authorization = `${jwtToken}`;
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
 // 定义岗位信息变量
 const jobPosts = ref([]);
 
@@ -11,7 +25,7 @@ const jobPosts = ref([]);
 
 const fetchJobPosts = async () => {
   try{
-  const response1 = await axios.get("http://localhost:8081/recommandNew");
+  const response1 = await instance.post("http://localhost:8081/recommandNew");
   if (response1.status === 200) {
     jobPosts.value = response1.data;
   } else {

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import axios from 'axios';
-import { ElMessage } from 'element-plus'; // 确保引入了 Element Plus 的 ElMessage 消息框组件
+import { ElMessage } from 'element-plus';
+import router from "@/router"; // 确保引入了 Element Plus 的 ElMessage 消息框组件
 
 const form = reactive({
   name: '',
@@ -28,12 +29,12 @@ const onSubmit = async () => {
     // 从后端返回的数据中提取消息内容
 
     // 根据后端返回的数据显示消息框
-    if (response.data.success) {
-      ElMessage.success("成功注册"); // 显示成功消息
+    if (response.data.code === 1 && response.data.msg === 'success') {
+      ElMessage.success(response.data.data); // 显示成功消息
+      await router.push({name: 'studentLogin'});
     } else {
-      ElMessage.error("注册失败，请检查您的验证码以及其他信息是否正确以及一个手机号只能绑定一个账号"); // 显示失败消息
+      ElMessage.error(response.data.data); // 显示失败消息
     }
-
   } catch (error) {
     console.error(error);
     ElMessage.error('请求出错，请稍后再试'); // 显示请求出错消息
@@ -57,10 +58,11 @@ const sendCode = async () => {
 
 
 <template>
+  <div class="background-container">
   <div class="container">
     <el-form :model="form" label-width="auto" style="max-width: 600px" class="my-form">
       <el-form-item label="姓名">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.name" placeholder="请输入您的姓名" />
       </el-form-item>
       <el-form-item label="用户名">
         <el-input v-model="form.username" placeholder="请输入您的用户名">
@@ -96,11 +98,15 @@ const sendCode = async () => {
       </el-row>
 
     </el-form>
-
+  </div>
   </div>
 </template>
 
 <style scoped>
+.background-container {
+
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -111,7 +117,6 @@ const sendCode = async () => {
 .my-form {
   max-width: 800px;
   /* 根据需要添加更多样式 */
-  background-color: transparent; /* 设置背景颜色为透明 */
   color: black; /* 设置文本颜色为黑色 */
   font-size: 2em; /* 设置字体大小为2em，使整个表单看起来更大 */
 }
