@@ -378,7 +378,7 @@
       >
         <a-button>
           <upload-outlined></upload-outlined>
-          Click to Upload
+          点击上传
         </a-button>
       </a-upload>
         </div>
@@ -616,7 +616,7 @@ const handleChange = (info: UploadChangeParam) => {
   }
   else if(info.file.status === 'removed'){
     instance.post('/deleteLocalResume', {
-      resumeUrl:info.file.response.data,
+      resumeUrl:info.file.url,
       name:info.file.name,
       uid:info.file.uid
     })

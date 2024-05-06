@@ -43,7 +43,7 @@ import axios from "axios";
 import router from "@/router";
 import StudentEnterprisePostAll from "@/router/student/homepage/StudentEnterprisePostAll.vue";
 import StudentFilter from "@/router/student/homepage/StudentFilter.vue";
-const selectedKeys = ref<string[]>(['3']);
+const selectedKeys = ref<string[]>(['2']);
 const route = useRoute();
 console.log("studentSelect",route.params.enterpriseInfo)
 function goToHomePage() {

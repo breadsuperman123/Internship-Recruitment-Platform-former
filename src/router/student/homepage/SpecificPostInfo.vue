@@ -45,7 +45,7 @@ import router from "@/router";
 const selectedKeys = ref<string[]>(['3']);
 function goToHomePage() {
   // 使用 router.push() 方法跳转到学生首页
-  router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
+  router.push({ name: 'studentHomePage' });
 }
 // 从路由中获取参数
 const route = useRoute();

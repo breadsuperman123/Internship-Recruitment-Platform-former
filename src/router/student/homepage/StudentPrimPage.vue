@@ -8,7 +8,7 @@
             <router-link :to="item.path">{{ item.title }}</router-link>
           </template>
           <template #avatar>
-            <a-avatar src="https://joeschmoe.io/api/v1/random" />
+            <a-avatar src="/主页logo.png" />
           </template>
         </a-list-item-meta>
       </a-list-item>
