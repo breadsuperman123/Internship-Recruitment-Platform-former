@@ -10,7 +10,9 @@
           :style="{ lineHeight: '64px' }"
       >
         <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
-        <a-menu-item key="2">职位百科</a-menu-item>
+        <a-menu-item key="2">
+          <a href="http://101.200.231.159:9002/">职位百科</a>
+        </a-menu-item>
         <a-dropdown>
           <template v-slot:overlay>
             <a-menu style="width: 200px">

@@ -9,8 +9,9 @@
           :style="{ lineHeight: '64px' }"
       >
         <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
-        <a-menu-item key="2">职位百科</a-menu-item>
-        <a-dropdown>
+        <a-menu-item key="2">
+          <a href="http://101.200.231.159:9002/">职位百科</a>
+        </a-menu-item>        <a-dropdown>
           <template v-slot:overlay>
             <a-menu style="width: 200px">
               <student-prim-page></student-prim-page>
@@ -43,7 +44,7 @@ import axios from "axios";
 import router from "@/router";
 import StudentEnterprisePostAll from "@/router/student/homepage/StudentEnterprisePostAll.vue";
 import StudentFilter from "@/router/student/homepage/StudentFilter.vue";
-const selectedKeys = ref<string[]>(['2']);
+const selectedKeys = ref<string[]>(['3']);
 const route = useRoute();
 console.log("studentSelect",route.params.enterpriseInfo)
 function goToHomePage() {
