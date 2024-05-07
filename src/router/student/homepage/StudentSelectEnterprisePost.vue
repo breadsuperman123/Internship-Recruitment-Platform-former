@@ -19,6 +19,7 @@
           </template>
           <a-menu-item key="3">我的</a-menu-item>
         </a-dropdown>
+        <a-menu-item key="4" @click="goToSearchPage">岗位搜索</a-menu-item>
       </a-menu>
     </a-layout-header>
     <student-enterprise-header :enterpriseInfo="route.params.enterpriseInfo"></student-enterprise-header>
@@ -50,6 +51,10 @@ console.log("studentSelect",route.params.enterpriseInfo)
 function goToHomePage() {
   // 使用 router.push() 方法跳转到学生首页
   router.push({ name: 'studentHomePage' }); // 假设学生首页的路由名为 'studentHomePage'
+}
+
+function goToSearchPage(){
+  router.push({ name: 'studentMainSearch',params: { searchValue: 'empty', searchData: JSON.stringify('') } }); // 假设学生首页的路由名为 'studentHomePage'
 }
 </script>
 

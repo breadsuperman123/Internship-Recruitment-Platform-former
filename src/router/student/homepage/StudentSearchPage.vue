@@ -21,6 +21,7 @@
           </template>
           <a-menu-item key="3">我的</a-menu-item>
         </a-dropdown>
+        <a-menu-item key="4" @click="goToSearchPage">岗位搜索</a-menu-item>
       </a-menu>
     </a-layout-header>
     <a-layout-content :style="{paddingTop:'64px' }">
@@ -210,7 +211,9 @@ function updateRequestParamsTime() {
   sendRequestTime(params);
 }
 
-
+function goToSearchPage(){
+  router.push({ name: 'studentMainSearch',params: { searchValue: 'empty', searchData: JSON.stringify('') } }); // 假设学生首页的路由名为 'studentHomePage'
+}
 
 </script>
 

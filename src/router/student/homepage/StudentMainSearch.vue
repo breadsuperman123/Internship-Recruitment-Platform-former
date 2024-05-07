@@ -123,6 +123,9 @@ function updateRequestParamsTime() {
   console.log("发送的筛选组合为：",params)
   sendRequestTime(params);
 }
+function goToSearchPage(){
+  router.push({ name: 'studentMainSearch',params: { searchValue: 'empty', searchData: JSON.stringify('') } }); // 假设学生首页的路由名为 'studentHomePage'
+}
 
 onMounted(showDefaultMainPost);
 function clearFilters() {
@@ -145,14 +148,17 @@ function clearFilters() {
         <a-menu-item key="1" @click="goToHomePage">首页</a-menu-item>
         <a-menu-item key="2">
           <a href="http://101.200.231.159:9002/">职位百科</a>
-        </a-menu-item>             <a-dropdown>
+        </a-menu-item>
+        <a-dropdown>
           <template v-slot:overlay>
             <a-menu style="width: 200px">
               <student-prim-page></student-prim-page>
             </a-menu>
           </template>
           <a-menu-item key="3">我的</a-menu-item>
-        </a-dropdown>      </a-menu>
+        </a-dropdown>
+        <a-menu-item key="4" @click="goToSearchPage">岗位搜索</a-menu-item>
+      </a-menu>
     </a-layout-header>
     <a-layout-content :style="{paddingTop:'64px' }">
       <a-input-search
