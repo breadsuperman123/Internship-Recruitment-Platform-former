@@ -75,8 +75,7 @@ const footerStyle: CSSProperties = {
   align-items: center;
   height: 100%;
   width: 100%;
-  background-image: url("../../assets/blue_sky(1).jpg");
-  background-size: cover;
+ background-size: cover;
   opacity: 0.9;
 
 }
